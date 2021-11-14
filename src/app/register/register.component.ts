@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 import { AccountService } from '../_services/account.service';
@@ -9,7 +9,10 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  // Attribute to emit in case of cancel action
   @Output() cancelRegister = new EventEmitter<boolean>();
+
+  // Reactive form for registering a new User
   model: FormGroup;
 
   constructor(private accountService: AccountService) {
@@ -19,9 +22,18 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(3),
       ]),
       password: new FormControl('', [Validators.required]),
+      first_name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      last_name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
     });
   }
 
+  // Sends a HTTP POST request to backend to register a new User
   register() {
     this.accountService.register(this.model.value).subscribe((response) => {
       console.log(response);
@@ -29,6 +41,7 @@ export class RegisterComponent implements OnInit {
     }, console.error);
   }
 
+  // Emit cancel action
   cancel() {
     this.cancelRegister.emit(false);
   }

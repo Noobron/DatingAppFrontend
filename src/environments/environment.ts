@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  API_URL: '<backend-api-localhost-url>',
+
+  // Set API url for localhost
+  API_URL: 'https://localhost:8000/api/',
 };
 
 /*

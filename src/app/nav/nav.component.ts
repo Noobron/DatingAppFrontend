@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { User } from '../_models/user';
+
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -10,6 +9,8 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
+
+  // Reactive form for login
   model: FormGroup;
 
   constructor(public accountService: AccountService) {
