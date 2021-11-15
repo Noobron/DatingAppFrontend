@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+// Import Angular packages
 import { Component, OnInit } from '@angular/core';
 
 @Component({

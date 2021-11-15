@@ -1,6 +1,9 @@
+// Import Angular packages
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
+
+// Import Services
 import { AccountService } from '../_services/account.service';
 
 @Component({

@@ -1,7 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+// Import Angular packages
 import { Component, OnInit } from '@angular/core';
+
+// Import Models
 import { Account } from './_models/account';
-import { User } from './_models/user';
+
+// Import Services
 import { AccountService } from './_services/account.service';
 
 @Component({
@@ -15,13 +18,13 @@ export class AppComponent implements OnInit {
 
   constructor(private accountService: AccountService) {}
 
-  setCurrentUser() {
+  setCurrentAccount() {
     // Get current logged in user if present
-    const user: Account = this.accountService.getCurrentUser();
-    this.accountService.setCurrentUser(user);
+    const user: Account | null = this.accountService.getCurrentAccount();
+    this.accountService.setCurrentAccount(user);
   }
 
   ngOnInit(): void {
-    this.setCurrentUser();
+    this.setCurrentAccount();
   }
 }

@@ -1,15 +1,13 @@
+// Import Angular packages
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-member-details',
   templateUrl: './member-details.component.html',
-  styleUrls: ['./member-details.component.css']
+  styleUrls: ['./member-details.component.css'],
 })
 export class MemberDetailsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

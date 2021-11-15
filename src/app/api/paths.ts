@@ -2,5 +2,5 @@
 export enum API_Paths{
     register = 'accounts/register/',
     login = 'accounts/login/',
-    loginRefresh = 'accounts/login/refresh'
+    loginRefresh = 'accounts/login/refresh/'
 }
