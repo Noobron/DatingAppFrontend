@@ -27,10 +27,12 @@
 
       <div
         class="dropdown"
-        *ngIf="accountService.currentAccount$ | async"
+        *ngIf="accountService.currentAccount$ | async as account"
         dropdown
       >
-        <a class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
+        <a class="dropdown-toggle text-light" dropdownToggle
+          >Welcome {{ account.username }}</a
+        >
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a class="dropdown-item">Edit Profile</a>
           <div class="dropdown-divider"></div>

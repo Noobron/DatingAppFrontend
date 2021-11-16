@@ -5,9 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Import installed packages
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ToastrModule } from 'ngx-toastr';
+// Import Modules
+import { SharedModule } from './_modules/shared.module';
 
 // Import Modules
 import { AppRoutingModule } from './app-routing.module';
@@ -39,10 +38,7 @@ import { MessagesComponent } from './messages/messages.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    BsDropdownModule.forRoot(),
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-right',
-    }),
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],
