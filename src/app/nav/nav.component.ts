@@ -28,15 +28,9 @@ export class NavComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.accountService.login(this.model.value).subscribe(
-      () => {
-        this.router.navigateByUrl('/members');
-      },
-      (error) => {
-        this.notify.notifyError( 'Oops..!', error.error.detail);
-        console.log(error);
-      }
-    );
+    this.accountService.login(this.model.value).subscribe(() => {
+      this.router.navigateByUrl('/members');
+    });
   }
 
   ngOnInit(): void {}

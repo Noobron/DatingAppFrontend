@@ -1,7 +1,7 @@
 // Import angular packages
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -20,6 +20,8 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { MessagesComponent } from './messages/messages.component';
     MemberDetailsComponent,
     ListsComponent,
     MessagesComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,9 +41,11 @@ import { MessagesComponent } from './messages/messages.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

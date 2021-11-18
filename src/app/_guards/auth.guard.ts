@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.accountService.isAuthenticated.pipe(
+    return this.accountService.authenticate$.pipe(
       map((account) => {
         if (account) return true;
         this.notify.notifyWarning('You need to be logged in first.');

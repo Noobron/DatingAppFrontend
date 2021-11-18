@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 // Import other necessary packages
 import { Observable, Observer, ReplaySubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 
 // Import other dependencies
@@ -15,7 +15,6 @@ import { Token } from '../_models/token';
 
 // Import Services
 import { TokenService } from './token.service';
-import { NotificationService } from './notifcation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +27,13 @@ export class AccountService {
   private currentAccountSource = new ReplaySubject<Account>(1);
   currentAccount$ = this.currentAccountSource.asObservable();
 
-  isAuthenticated = new Observable((observer: Observer<any>) => {
+  // Observable to check if user is authenticated and authenticate user if there is valid refresh token
+  authenticate$ = new Observable((observer: Observer<boolean>) => {
+    if (!this.tokenService.isAccessTokenExpired()) {
+      observer.next(true);
+      return;
+    }
+
     if (!this.tokenService.isRefreshTokenExpired()) {
       this.http
         .post<{ access: string }>(this.baseurl + API_Paths.loginRefresh, {
@@ -49,12 +54,12 @@ export class AccountService {
 
             this.setCurrentAccount(account);
 
-            observer.next(true);
-
             this.tokenService.setAccessToken(
               response.access,
               new Date(parseInt(access_token.exp) * 1000)
             );
+
+            observer.next(true);
           },
           (error) => {
             this.logout();
@@ -67,13 +72,9 @@ export class AccountService {
     }
   });
 
-  constructor(
-    private http: HttpClient,
-    private tokenService: TokenService,
-    private notify: NotificationService
-  ) {
+  constructor(private http: HttpClient, private tokenService: TokenService) {
     // login the last user if refresh token is valid
-    this.isAuthenticated.subscribe();
+    this.authenticate$.subscribe();
   }
 
   // make HTTP POST request to backend using it's API to login as a user
@@ -136,10 +137,6 @@ export class AccountService {
       tap((response: any) => {
         const data = { username: model.username, password: model.password };
         this.login(data).subscribe();
-      }),
-      catchError((error) => {
-        this.notify.notifyError('Error in Registration', error.error.detail);
-        throw error;
       })
     );
   }
