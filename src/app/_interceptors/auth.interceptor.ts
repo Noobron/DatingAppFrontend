@@ -84,7 +84,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {
     // check if refresh token is expired
     if (!this.tokenService.isRefreshTokenExpired()) {
-      
       // refresh the token and retry the request
       return this.refresh$.pipe(
         switchMap((response) => {
@@ -98,7 +97,7 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       );
     } else {
-      this.notify.notifyError('Error while making request', error.statusText);
+      this.notify.notifyError('Error', error.error.detail);
       return throwError(error);
     }
   }

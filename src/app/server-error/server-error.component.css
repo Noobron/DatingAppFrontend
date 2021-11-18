@@ -8,3 +8,6 @@ body {
 button:hover {
   color: white;
 }
+button {
+  margin-top: 5%;
+}

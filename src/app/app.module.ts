@@ -22,6 +22,7 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ServerErrorComponent } from './server-error/server-error.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ListsComponent,
     MessagesComponent,
     NotFoundComponent,
+    ServerErrorComponent,
   ],
   imports: [
     BrowserModule,
