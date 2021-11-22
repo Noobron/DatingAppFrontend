@@ -23,6 +23,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ServerErrorComponent } from './server-error/server-error.component';
     MessagesComponent,
     NotFoundComponent,
     ServerErrorComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=MuseoModerno:wght@600&family=Rubik:wght@600&display=swap");
 
-.register {
+.login {
   min-height: 80vh;
 }
 
@@ -9,10 +9,9 @@
   margin: 12% 0;
 }
 
-.login {
-  margin-left: 5%;
+.register {
+  margin-left: 20%;
   margin-top: 10%;
-  margin-bottom: 30%;
 }
 
 .logo {
@@ -21,13 +20,8 @@
   color: white;
   -webkit-text-stroke: 1px #6200ff;
   margin-bottom: 15%;
-  margin-top: 30%;
-}
-
-.content {
-margin-bottom: 10%;
 }
 
 .account{
-  margin-left: 10%;
+  margin-left: 7%;
 }

@@ -1,4 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=MuseoModerno:wght@600&family=Rubik:wght@600&display=swap");
+
 .dropdown-toggle,
 .dropdown-item {
   cursor: pointer;
+}
+
+.navbar {
+  background-color: #6200ff;
+}
+
+.navbar-brand {
+  font-family: "MuseoModerno";
+  font-size: x-large;
 }

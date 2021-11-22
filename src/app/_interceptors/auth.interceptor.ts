@@ -97,6 +97,7 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       );
     } else {
+      this.tokenService.removeRefreshToken();
       this.notify.notifyError('Error', error.error.detail);
       return throwError(error);
     }

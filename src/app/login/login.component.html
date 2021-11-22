@@ -1,0 +1,53 @@
+<div class="col-md-6 mx-auto content bg-white">
+  <div class="login d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-xl-7 mx-auto">
+        <div [align]="'center'" class=" logo">T E N A S</div>
+          <h3 class="display-6 account">Account Login</h3>
+
+          <form [formGroup]="model" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-3">
+              <input
+                formControlName="username"
+                type="text"
+                placeholder="Username"
+                required=""
+                autofocus=""
+                class="form-control rounded-pill border-0 shadow-sm px-4"
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <input
+                formControlName="password"
+                type="password"
+                placeholder="Password"
+                required=""
+                class="
+                  form-control
+                  rounded-pill
+                  border-0
+                  shadow-sm
+                  px-4
+                  text-primary
+                "
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-block mb-2 rounded-pill shadow-sm"
+            >
+              Sign In
+            </button>
+          </form>
+          <div class="register align-items-center">
+            New User?
+            <a routerLink="/register">Register here</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

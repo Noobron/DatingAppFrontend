@@ -1,24 +1,37 @@
 // Import Angular packages
-import { Component, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 
 // Import Services
 import { AccountService } from '../_services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   // Attribute to emit in case of cancel action
   @Output() cancelRegister = new EventEmitter<boolean>();
 
   // Reactive form for registering a new User
   model: FormGroup;
 
-  constructor(private accountService: AccountService) {
+  initialColor: string = '';
+
+  constructor(
+    private accountService: AccountService,
+    private elementRef: ElementRef,
+    private router: Router
+  ) {
     this.model = new FormGroup({
       username: new FormControl('', [
         Validators.required,
@@ -38,15 +51,25 @@ export class RegisterComponent implements OnInit {
 
   // Sends a HTTP POST request to backend to register a new User
   register() {
-    this.accountService.register(this.model.value).subscribe((response) => {
-      console.log(response);
-      this.cancel();
-    }, console.error);
+    this.accountService.register(this.model.value).subscribe((res$) => {
+      res$.subscribe((response) => {
+        console.log(response)
+        this.router.navigate(['/members']);
+      });
+    });
   }
 
-  // Emit cancel action
-  cancel() {
-    this.cancelRegister.emit(false);
+  ngAfterViewInit() {
+    this.initialColor =
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor;
+
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
+      '#6200ff';
+  }
+
+  ngOnDestroy() {
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor =
+      this.initialColor;
   }
 
   ngOnInit(): void {}

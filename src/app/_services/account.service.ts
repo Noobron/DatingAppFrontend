@@ -134,9 +134,9 @@ export class AccountService {
   // make HTTP POST request to backend using it's API to register new user
   register(model: any) {
     return this.http.post<any>(this.baseurl + API_Paths.register, model).pipe(
-      tap((response: any) => {
+      map((response: any) => {
         const data = { username: model.username, password: model.password };
-        this.login(data).subscribe();
+        return this.login(data);
       })
     );
   }

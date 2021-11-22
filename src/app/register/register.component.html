@@ -1,4 +1,4 @@
-<form [formGroup]="model" autocomplete="off" (ngSubmit)="register()">
+<!-- <form [formGroup]="model" autocomplete="off" (ngSubmit)="register()">
   <h2 class="text-center text-primary">Sign Up</h2>
 
   <hr />
@@ -38,4 +38,80 @@
       Cancel
     </button>
   </div>
-</form>
+</form> -->
+
+<div class="col-md-6 mx-auto content bg-white">
+  <div class="register d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-xl-7 mx-auto">
+          <div [align]="'center'" class="logo">T E N A S</div>
+          <h3 class=" account display-6">New Account</h3>
+
+          <form [formGroup]="model" autocomplete="off" (ngSubmit)="register()">
+            <div class="form-group mb-3">
+              <input
+                formControlName="username"
+                type="text"
+                placeholder="Username"
+                required=""
+                autofocus=""
+                class="form-control rounded-pill border-0 shadow-sm px-4"
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <input
+                type="text"
+                placeholder="First Name"
+                formControlName="first_name"
+                required=""
+                autofocus=""
+                class="form-control rounded-pill border-0 shadow-sm px-4"
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <input
+                type="text"
+                placeholder="Last Name"
+                formControlName="last_name"
+                required=""
+                autofocus=""
+                class="form-control rounded-pill border-0 shadow-sm px-4"
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <input
+                formControlName="password"
+                type="password"
+                placeholder="Password"
+                required=""
+                class="
+                  form-control
+                  rounded-pill
+                  border-0
+                  shadow-sm
+                  px-4
+                  text-primary
+                "
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-block mb-2 rounded-pill shadow-sm"
+            >
+              Sign Up
+            </button>
+          </form>
+          <div class="login align-items-center">
+            Already have an account?
+            <a routerLink="/login">Login here</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
