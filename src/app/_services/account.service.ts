@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 // Import other necessary packages
 import { Observable, Observer, ReplaySubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 
 // Import other dependencies
@@ -34,42 +34,35 @@ export class AccountService {
       return;
     }
 
-    if (!this.tokenService.isRefreshTokenExpired()) {
-      this.http
-        .post<{ access: string }>(this.baseurl + API_Paths.loginRefresh, {
-          refresh: this.tokenService.getRefreshToken(),
-        })
-        .subscribe(
-          (response) => {
-            const access_token: {
-              user_id: string;
-              username: string;
-              exp: string;
-            } = jwt_decode(response.access);
+    this.http.post<Token>(this.baseurl + API_Paths.loginRefresh, {}).subscribe(
+      (response) => {
+        const access_token: {
+          user_id: string;
+          username: string;
+          exp: string;
+        } = jwt_decode(response.access);
 
-            let account = {
-              userid: access_token.user_id,
-              username: access_token.username,
-            };
+        let account = {
+          userid: access_token.user_id,
+          username: access_token.username,
+        };
 
-            this.setCurrentAccount(account);
+        this.setCurrentAccount(account);
 
-            this.tokenService.setAccessToken(
-              response.access,
-              new Date(parseInt(access_token.exp) * 1000)
-            );
-
-            observer.next(true);
-          },
-          (error) => {
-            this.logout();
-            observer.next(false);
-          }
+        this.tokenService.setAccessToken(
+          response.access,
+          new Date(parseInt(access_token.exp) * 1000)
         );
-    } else {
-      this.logout();
-      observer.next(false);
-    }
+
+        this.tokenService.setRefreshTokenValid();
+
+        observer.next(true);
+      },
+      (error) => {
+        this.logout();
+        observer.next(false);
+      }
+    );
   });
 
   constructor(private http: HttpClient, private tokenService: TokenService) {
@@ -84,12 +77,6 @@ export class AccountService {
         const access_token: { user_id: string; username: string; exp: string } =
           jwt_decode(response.access);
 
-        const refresh_token: {
-          user_id: string;
-          username: string;
-          exp: string;
-        } = jwt_decode(response.refresh);
-
         const account: Account = {
           userid: access_token.user_id,
           username: access_token.username,
@@ -97,13 +84,10 @@ export class AccountService {
 
         if (account) {
           this.currentAccount = account;
+          this.tokenService.setRefreshTokenValid();
           this.tokenService.setAccessToken(
             response.access,
             new Date(parseInt(access_token.exp) * 1000)
-          );
-          this.tokenService.setRefreshToken(
-            response.refresh,
-            new Date(parseInt(refresh_token.exp) * 1000)
           );
           this.currentAccountSource.next(account);
         }
@@ -126,9 +110,13 @@ export class AccountService {
 
   // remove Account object and tokens from local storage associated with current user account
   logout() {
-    this.tokenService.removeAccessToken();
-    this.tokenService.removeRefreshToken();
-    this.currentAccountSource.next();
+    this.http
+      .get(environment.API_URL + API_Paths.logout)
+      .subscribe((response) => {
+        this.tokenService.removeAccessToken();
+        this.tokenService.setRefreshTokenInvalid();
+        this.currentAccountSource.next();
+      });
   }
 
   // make HTTP POST request to backend using it's API to register new user

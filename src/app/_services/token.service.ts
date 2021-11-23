@@ -5,20 +5,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TokenService {
-  private refreshLabel = 'refresh';
-
   private accessTokenExpiryTime: Date | null = null;
-  private refreshTokenExpiryTime: Date | null;
 
   private accessToken: string | null = null;
 
-  constructor() {
-    let refreshObject = this.getRefreshObject();
+  private refreshTokenValidity: boolean = false;
 
-    if (refreshObject !== null)
-      this.refreshTokenExpiryTime = new Date(refreshObject.expiryTime);
-    else this.refreshTokenExpiryTime = null;
-  }
+  constructor() {}
 
   // check whether access token is expired
   isAccessTokenExpired() {
@@ -47,40 +40,18 @@ export class TokenService {
     this.accessTokenExpiryTime = null;
   }
 
-  // check whether refresh token is expired
-  isRefreshTokenExpired() {
-    if (
-      this.refreshTokenExpiryTime !== null &&
-      this.refreshTokenExpiryTime > new Date()
-    )
-      return false;
-    return true;
+  // check whether refresh token cookie is valid
+  isRefreshTokenValid() {
+    return this.refreshTokenValidity;
   }
 
-  // geting refresh token from storage
-  getRefreshToken() {
-    return JSON.parse(localStorage.getItem(this.refreshLabel)!).refreshToken;
+  // invalidate refresh token cookie
+  setRefreshTokenInvalid() {
+    this.refreshTokenValidity = false;
   }
 
-  // geting refresh object from storage
-  getRefreshObject() {
-    return JSON.parse(localStorage.getItem(this.refreshLabel)!);
-  }
-
-  // setting refresh token from storage
-  setRefreshToken(refreshToken: string, expiryTime: Date) {
-    this.refreshTokenExpiryTime = expiryTime;
-
-    localStorage.setItem(
-      this.refreshLabel,
-      JSON.stringify({ refreshToken, expiryTime })
-    );
-  }
-
-  // deleting refresh token from storage
-  removeRefreshToken() {
-    this.refreshTokenExpiryTime = null;
-
-    localStorage.removeItem(this.refreshLabel);
+  // validate refresh token cookie
+  setRefreshTokenValid() {
+    this.refreshTokenValidity = true;
   }
 }

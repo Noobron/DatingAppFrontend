@@ -20,6 +20,7 @@ import jwt_decode from 'jwt-decode';
 import { TokenService } from '../_services/token.service';
 import { NotificationService } from '../_services/notifcation.service';
 import { NavigationExtras, Router } from '@angular/router';
+import { Token } from '../_models/token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
@@ -38,6 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
       setHeaders: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     });
   }
 
@@ -49,31 +51,31 @@ export class AuthInterceptor implements HttpInterceptor {
       return;
     }
 
-    if (!this.tokenService.isRefreshTokenExpired()) {
-      this.http
-        .post<{ access: string }>(this.refreshUrl, {
-          refresh: this.tokenService.getRefreshToken(),
-        })
-        .subscribe(
-          (response) => {
-            const access_token: {
-              user_id: string;
-              username: string;
-              exp: string;
-            } = jwt_decode(response.access);
+    if (this.tokenService.isRefreshTokenValid()) {
+      this.http.post<Token>(this.refreshUrl, {}).subscribe(
+        (response) => {
+          const access_token: {
+            user_id: string;
+            username: string;
+            exp: string;
+          } = jwt_decode(response.access);
 
-            this.tokenService.setAccessToken(
-              response.access,
-              new Date(parseInt(access_token.exp) * 1000)
-            );
+          this.tokenService.setAccessToken(
+            response.access,
+            new Date(parseInt(access_token.exp) * 1000)
+          );
 
-            observer.next(true);
-          },
-          (error) => {
-            observer.next(false);
-          }
-        );
-    } else observer.next(false);
+          this.tokenService.setRefreshTokenValid();
+
+          observer.next(true);
+        },
+        (error) => {
+          observer.next(false);
+        }
+      );
+    } else {
+      observer.next(false);
+    }
   });
 
   // handles Unauthorized error (401)
@@ -82,8 +84,8 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler,
     error: HttpErrorResponse
   ) {
-    // check if refresh token is expired
-    if (!this.tokenService.isRefreshTokenExpired()) {
+    // check if refresh token is valid
+    if (this.tokenService.isRefreshTokenValid()) {
       // refresh the token and retry the request
       return this.refresh$.pipe(
         switchMap((response) => {
@@ -92,13 +94,15 @@ export class AuthInterceptor implements HttpInterceptor {
               request,
               this.tokenService.getAccessToken()
             );
-
+          else {
+            this.tokenService.setRefreshTokenInvalid();
+          }
           return next.handle(request);
         })
       );
     } else {
-      this.tokenService.removeRefreshToken();
-      this.notify.notifyError('Error', error.error.detail);
+      this.tokenService.removeAccessToken();
+      this.tokenService.setRefreshTokenInvalid();
       return throwError(error);
     }
   }
@@ -115,7 +119,6 @@ export class AuthInterceptor implements HttpInterceptor {
           switch (error.status) {
             case 401:
               return this.handle401Error(request, next, error);
-
             case 404:
               this.router.navigateByUrl('/not-found');
               break;
