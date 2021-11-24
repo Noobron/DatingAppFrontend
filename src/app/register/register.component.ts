@@ -12,6 +12,7 @@ import { EventEmitter } from '@angular/core';
 // Import Services
 import { AccountService } from '../_services/account.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../_services/notifcation.service';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private accountService: AccountService,
     private elementRef: ElementRef,
-    private router: Router
+    private router: Router,
+    private notify: NotificationService
   ) {
     this.model = new FormGroup({
       username: new FormControl('', [
@@ -51,12 +53,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   // Sends a HTTP POST request to backend to register a new User
   register() {
-    this.accountService.register(this.model.value).subscribe((res$) => {
-      res$.subscribe((response) => {
-        console.log(response)
-        this.router.navigate(['/members']);
-      });
-    });
+    this.accountService.register(this.model.value).subscribe(
+      (res$) => {
+        res$.subscribe((response) => {
+          console.log(response);
+          this.router.navigate(['/members']);
+        });
+      },
+      (error) => {
+        if (error.error.detail)
+          this.notify.notifyError('Error in registration', error.error.detail);
+      }
+    );
   }
 
   ngAfterViewInit() {

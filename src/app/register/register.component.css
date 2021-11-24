@@ -24,10 +24,13 @@
   margin-top: 30%;
 }
 
-.content {
-margin-bottom: 10%;
+.account {
+  margin-left: 10%;
 }
 
-.account{
-  margin-left: 10%;
+.content {
+  margin-bottom: 10%;
+  border-radius: 3%;
+  -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
 }

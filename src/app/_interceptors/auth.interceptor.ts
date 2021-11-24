@@ -69,7 +69,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
           observer.next(true);
         },
-        (error) => {
+        () => {
           observer.next(false);
         }
       );

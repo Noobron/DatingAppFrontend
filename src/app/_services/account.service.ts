@@ -58,7 +58,7 @@ export class AccountService {
 
         observer.next(true);
       },
-      (error) => {
+      () => {
         this.logout();
         observer.next(false);
       }
@@ -110,19 +110,17 @@ export class AccountService {
 
   // remove Account object and tokens from local storage associated with current user account
   logout() {
-    this.http
-      .get(environment.API_URL + API_Paths.logout)
-      .subscribe((response) => {
-        this.tokenService.removeAccessToken();
-        this.tokenService.setRefreshTokenInvalid();
-        this.currentAccountSource.next();
-      });
+    this.http.get(environment.API_URL + API_Paths.logout).subscribe(() => {
+      this.tokenService.removeAccessToken();
+      this.tokenService.setRefreshTokenInvalid();
+      this.currentAccountSource.next();
+    });
   }
 
   // make HTTP POST request to backend using it's API to register new user
   register(model: any) {
     return this.http.post<any>(this.baseurl + API_Paths.register, model).pipe(
-      map((response: any) => {
+      map(() => {
         const data = { username: model.username, password: model.password };
         return this.login(data);
       })
