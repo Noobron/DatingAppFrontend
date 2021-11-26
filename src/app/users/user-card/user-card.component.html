@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <div class="profile">
+    <div
+      class="thumbnail"
+      [style.background-image]="'url(' + user.mainPhoto + ')'"
+    ></div>
+    <h3 class="name">{{ user.firstName + " " + user.lastName }}</h3>
+    <p class="age">Age : {{ user.age }}</p>
+  </div>
+
+  <ul>
+    <li title="View Profile">
+      <i style="color: blue" class="popout fa fa-user"></i>
+    </li>
+    <li title="Like">
+      <i style="color: crimson" class="popout fa fa-heart"></i>
+    </li>
+    <li title="Send Message">
+      <i style="color: goldenrod" class="popout fa fa-envelope"></i>
+    </li>
+  </ul>
+</div>

@@ -6,8 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
 import { LoginComponent } from './login/login.component';
-import { MemberDetailsComponent } from './members/member-details/member-details.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { UserListComponent } from './users/user-list/user-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RegisterComponent } from './register/register.component';
@@ -24,8 +24,8 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'members', component: MemberListComponent },
-      { path: 'members/id', component: MemberDetailsComponent },
+      { path: 'find-matches', component: UserListComponent },
+      { path: 'user/id', component: UserDetailsComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],

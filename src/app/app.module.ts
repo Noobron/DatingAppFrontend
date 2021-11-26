@@ -16,14 +16,15 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
-import { MemberDetailsComponent } from './members/member-details/member-details.component';
+import { UserCardComponent } from './users/user-card/user-card.component';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
 import { LoginComponent } from './login/login.component';
+import { UserListComponent } from './users/user-list/user-list.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -31,13 +32,14 @@ import { LoginComponent } from './login/login.component';
     NavComponent,
     HomeComponent,
     RegisterComponent,
-    MemberListComponent,
-    MemberDetailsComponent,
+    UserListComponent,
+    UserCardComponent,
     ListsComponent,
     MessagesComponent,
     NotFoundComponent,
     ServerErrorComponent,
     LoginComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,

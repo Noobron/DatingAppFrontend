@@ -1,0 +1,56 @@
+<div style="margin-top: 20%" class="container">
+  <div class="row">
+    <svg
+      *ngIf="currentPosition >= viewUserCount"
+      class="col"
+      style="right: 87%"
+      viewBox="0 0 18 17"
+      (click)="goLeft()"
+    >
+      <g
+        transform="translate(8.500000, 8.500000) scale(-1, 1) translate(-8.500000, -8.500000)"
+      >
+        <polygon
+          class="arrow"
+          points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"
+        ></polygon>
+        <polygon
+          class="arrow-fixed"
+          points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"
+        ></polygon>
+      </g>
+    </svg>
+
+    <ng-container
+      *ngFor="
+        let user of userList.slice(
+          currentPosition,
+          currentPosition + viewUserCount
+        )
+      "
+    >
+      <div class="col">
+        <app-user-card [user]="user"></app-user-card>
+      </div>
+    </ng-container>
+
+    <svg
+      *ngIf="currentPosition + viewUserCount < userList.length"
+      class="col"
+      style="left: 87%"
+      viewBox="0 0 18 17"
+      (click)="goRight()"
+    >
+      <g>
+        <polygon
+          class="arrow"
+          points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"
+        ></polygon>
+        <polygon
+          class="arrow-fixed"
+          points="16.3746667 8.33860465 7.76133333 15.3067621 6.904 14.3175671 14.2906667 8.34246869 6.908 2.42790698 7.76 1.43613596"
+        ></polygon>
+      </g>
+    </svg>
+  </div>
+</div>

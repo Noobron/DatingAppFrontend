@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.accountService.login(this.model.value).subscribe(
       () => {
-        this.router.navigate(['/members']);
+        this.router.navigate(['/find-matches']);
       },
       (error) => {
         if (error.error.detail)
