@@ -1,11 +1,12 @@
 // Import Angular packages
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 
 // Import Services
 import { UserService } from 'src/app/_services/user.service';
 
 // Import Components
 import { User } from 'src/app/_models/user';
+import { SlickCarouselComponent } from 'ngx-slick-carousel';
 
 @Component({
   selector: 'app-user-list',
@@ -16,17 +17,28 @@ export class UserListComponent implements OnInit {
   private offest = 0;
   private batchSize = 6;
 
+  @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
+
   currentPosition = 0;
 
   // number of Users which are going to be viewed
   viewUserCount = 3;
 
-  userList: User[] = [];
+  userList: (User | null)[] = [];
+
+  slideConfig = {
+    slidesToShow: this.viewUserCount,
+    slidesToScroll: this.viewUserCount,
+    draggable: false,
+    infinite: false,
+    waitForAnimate: false,
+    arrows: false,
+  };
 
   constructor(private userService: UserService) {
     this.getNextUserBatch();
   }
-  
+
   ngOnInit(): void {}
 
   // retrieve next batch of users from database using API
@@ -35,7 +47,6 @@ export class UserListComponent implements OnInit {
       .getUsers(this.offest, this.batchSize)
       .subscribe((response) => {
         if (response !== []) this.userList.push(...response);
-        console.log(this.userList);
         this.offest += this.batchSize;
       });
   }
@@ -47,8 +58,7 @@ export class UserListComponent implements OnInit {
       0
     );
 
-    if (this.currentPosition + this.viewUserCount >= this.offest)
-      this.getNextUserBatch();
+    this.slickModal.slickGoTo(this.currentPosition);
   }
 
   // view next slot of users
@@ -57,6 +67,16 @@ export class UserListComponent implements OnInit {
       this.userList.length - 1,
       this.currentPosition + this.viewUserCount
     );
+
+    if (this.userList.length - this.currentPosition + 1 < this.viewUserCount)
+      for (
+        let pos = this.userList.length - this.currentPosition;
+        pos < this.viewUserCount;
+        pos++
+      )
+        this.userList.push(null);
+
+    this.slickModal.slickGoTo(this.currentPosition);
 
     if (this.currentPosition + this.viewUserCount >= this.offest)
       this.getNextUserBatch();

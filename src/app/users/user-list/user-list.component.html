@@ -21,18 +21,19 @@
       </g>
     </svg>
 
-    <ng-container
-      *ngFor="
-        let user of userList.slice(
-          currentPosition,
-          currentPosition + viewUserCount
-        )
-      "
-    >
-      <div class="col">
-        <app-user-card [user]="user"></app-user-card>
-      </div>
-    </ng-container>
+    <ngx-slick-carousel #slickModal="slick-carousel" [config]="slideConfig">
+      <ng-container *ngFor="let user of userList">
+        <div ngxSlickItem class="col">
+          <app-user-card
+            *ngIf="user != null; else emptySlot"
+            [user]="user"
+          ></app-user-card>
+          <ng-template #emptySlot>
+            <div></div>
+          </ng-template>
+        </div>
+      </ng-container>
+    </ngx-slick-carousel>
 
     <svg
       *ngIf="currentPosition + viewUserCount < userList.length"
