@@ -26,6 +26,9 @@ import { LoginComponent } from './login/login.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 
+// Import Pipes
+import { TimeAgo } from './_pipes/time-ago.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +43,7 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
     ServerErrorComponent,
     LoginComponent,
     UserDetailsComponent,
+    TimeAgo,
   ],
   imports: [
     BrowserModule,

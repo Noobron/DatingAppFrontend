@@ -1,1 +1,213 @@
-<p>user-details works!</p>
+<section style="background-color: #eee; margin-bottom: 3.5%">
+  <div class="container py-4">
+    <div class="row text">
+      <div class="col-lg-5">
+        <div class="card mb-4">
+          <div *ngIf="user != null" class="card-body text-center">
+            <div
+              class="thumbnail"
+              [style.background-image]="'url(' + user.mainPhoto + ')'"
+            ></div>
+            <h5 style="font-size: xx-large" class="my-3">
+              {{ user.firstName | titlecase }} {{ user.lastName | titlecase }}
+            </h5>
+            <p class="text-muted mb-1">@{{ user.username }}</p>
+            <p class="text-muted mb-4">
+              {{
+                user.city && user.country
+                  ? user.city + ", " + user.country
+                  : "Not Dislosed"
+              }}
+            </p>
+            <div class="d-flex justify-content-center mb-2">
+              <button type="button" class="btn like">Like</button>
+              <button type="button" class="btn btn-outline-primary ms-1">
+                Message
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul
+              *ngIf="user != null"
+              class="list-group list-group-flush rounded-3"
+            >
+              <li
+                title="Gender"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  p-3
+                "
+              >
+                <img
+                  width="10%"
+                  src="https://cdn-icons.flaticon.com/png/512/2517/premium/2517445.png?token=exp=1638112511~hmac=2f3d8b43b5520aa7c46923522cff5335"
+                />
+                <h6 class="mb-0">{{ user.gender | titlecase }}</h6>
+              </li>
+              <li
+                title="Age"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  p-3
+                "
+              >
+                <img
+                  width="10%"
+                  src="https://cdn-icons-png.flaticon.com/512/3788/3788080.png"
+                />
+                <h6 class="mb-0">
+                  {{ user.age !== -1 ? user.age : "Not Disclosed" }}
+                </h6>
+              </li>
+              <li
+                title="Date of Birth"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  p-3
+                "
+              >
+                <img
+                  width="10%"
+                  src="https://cdn-icons.flaticon.com/png/512/2195/premium/2195471.png?token=exp=1638111644~hmac=b7559b082234c2728f5303bde425bc57"
+                />
+                <h6>{{ user.dateOfBirth | date }}</h6>
+                <h6 *ngIf="user.dateOfBirth == null">
+                  {{ "Not Dsiclosed" }}
+                </h6>
+              </li>
+              <li
+                title="Last Active"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  p-3
+                "
+              >
+                <img
+                  width="12%"
+                  src="https://cdn-icons.flaticon.com/png/512/4450/premium/4450309.png?token=exp=1638112771~hmac=c2111127fe2d204894510a25f30a597c"
+                />
+                <h6>{{ user.lastActive | timeAgo }}</h6>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="user != null" class="col-lg-7">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              (click)="selectAbout()"
+              [class.active]="selectedIndex === 0"
+              >ABOUT</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              (click)="selectInterests()"
+              [class.active]="selectedIndex === 1"
+              >INTERESTS</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              (click)="selectPhotos()"
+              [class.active]="selectedIndex === 2"
+              >PHOTOS</a
+            >
+          </li>
+        </ul>
+        <div
+          class="content about-content card"
+          [style.display]="selectedIndex === 0 ? 'block' : 'none'"
+        >
+          <div class="card-body">
+            <ng-container *ngIf="user.introduction">
+              <h4>About {{ user?.firstName | titlecase }}</h4>
+              {{ user.introduction }}
+            </ng-container>
+
+            <ng-container *ngIf="user.lookingFor">
+              <h5 style="margin-top: 10%">Looking for</h5>
+              {{ user.lookingFor }}
+            </ng-container>
+
+            <ng-container
+              *ngIf="
+                user.lookingFor == undefined && user.introduction == undefined
+              "
+            >
+              <img
+                width="50%"
+                style="margin-left: 23%; margin-top: 20%"
+                src="https://cdn-icons.flaticon.com/png/512/3689/premium/3689248.png?token=exp=1638202370~hmac=a663653b8854a772412c1119498170c2"
+                alt="Empty User Info"
+              />
+            </ng-container>
+          </div>
+        </div>
+        <div
+          class="content interests-content card"
+          [style.display]="selectedIndex === 1 ? 'block' : 'none'"
+        >
+          <div class="card-body">
+            <ng-container *ngIf="user.interests">
+              <h4>Interested in</h4>
+              {{ user.interests }}
+            </ng-container>
+
+            <ng-container *ngIf="user.interests == undefined">
+              <img
+                width="50%"
+                style="margin-left: 23%; margin-top: 20%"
+                src="https://cdn-icons.flaticon.com/png/512/3689/premium/3689248.png?token=exp=1638202370~hmac=a663653b8854a772412c1119498170c2"
+                alt="Empty User Info"
+              />
+            </ng-container>
+          </div>
+        </div>
+        <div
+          class="content photos-content card"
+          [style.display]="selectedIndex === 2 ? 'block' : 'none'"
+        >
+          <div class="card-body">
+            <ng-container *ngIf="galleryImages.length">
+              <ngx-gallery
+                style="display: inline-block; margin-bottom: 20px"
+                [options]="galleryOptions"
+                [images]="galleryImages"
+              ></ngx-gallery>
+            </ng-container>
+
+            <ng-container *ngIf="galleryImages.length === 0">
+              <img
+                width="50%"
+                style="margin-left: 23%; margin-top: 20%"
+                src="https://cdn3.iconfinder.com/data/icons/online-states/150/Photos-1024.png"
+                alt="Empty User Info"
+              />
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

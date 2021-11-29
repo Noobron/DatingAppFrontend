@@ -4,12 +4,14 @@
       class="thumbnail"
       [style.background-image]="'url(' + user.mainPhoto + ')'"
     ></div>
-    <h3 class="name">{{ user.firstName + " " + user.lastName }}</h3>
+    <h3 class="name">
+      {{ user.firstName | titlecase }} {{ user.lastName | titlecase }}
+    </h3>
     <p class="age">Age : {{ user.age }}</p>
   </div>
 
   <ul>
-    <li title="View Profile">
+    <li [routerLink]="['/users', user.username]" title="View Profile">
       <i style="color: blue" class="popout fa fa-user"></i>
     </li>
     <li title="Like">

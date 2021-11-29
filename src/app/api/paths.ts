@@ -5,4 +5,5 @@ export enum API_Paths {
   loginRefresh = 'accounts/login/refresh/',
   logout = 'accounts/logout/',
   users = 'accounts/users/',
+  photos = 'accounts/get-photos/'
 }

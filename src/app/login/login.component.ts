@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate(['/find-matches']);
       },
       (error) => {
-        if (error.error.detail)
+        if (error.error)
           this.notify.notifyError('Error in login', error.error.detail);
       }
     );

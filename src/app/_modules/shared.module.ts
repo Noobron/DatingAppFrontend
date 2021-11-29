@@ -6,6 +6,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 // Import other npm packages
 import { ToastrModule } from 'ngx-toastr';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 @NgModule({
   declarations: [],
@@ -16,7 +17,13 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
       positionClass: 'toast-top-right',
     }),
     SlickCarouselModule,
+    NgxGalleryModule,
   ],
-  exports: [BsDropdownModule, ToastrModule, SlickCarouselModule],
+  exports: [
+    BsDropdownModule,
+    ToastrModule,
+    SlickCarouselModule,
+    NgxGalleryModule,
+  ],
 })
 export class SharedModule {}

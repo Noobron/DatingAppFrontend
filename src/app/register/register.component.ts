@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         });
       },
       (error) => {
-        if (error.error.detail)
+        if (error.error)
           this.notify.notifyError('Error in registration', error.error.detail);
       }
     );
