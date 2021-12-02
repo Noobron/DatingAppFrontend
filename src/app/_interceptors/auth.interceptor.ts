@@ -21,6 +21,7 @@ import { TokenService } from '../_services/token.service';
 import { NotificationService } from '../_services/notifcation.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { Token } from '../_models/token';
+import { AccountManagerService } from '../_services/account/account-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
@@ -30,7 +31,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private tokenService: TokenService,
     private http: HttpClient,
     private notify: NotificationService,
-    private router: Router
+    private router: Router,
+    private accountManagerService: AccountManagerService
   ) {}
 
   // adds access token to the request body if present
@@ -103,6 +105,7 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
       this.tokenService.removeAccessToken();
       this.tokenService.setRefreshTokenInvalid();
+      this.accountManagerService.removeCurrentAccount();
       return throwError(error);
     }
   }
@@ -121,6 +124,12 @@ export class AuthInterceptor implements HttpInterceptor {
               return this.handle401Error(request, next, error);
             case 404:
               this.router.navigateByUrl('/not-found');
+              break;
+            case 403:
+              this.notify.notifyError(
+                'Permisson denied',
+                'You are not authorized to view this content'
+              );
               break;
             case 500:
               const navtigationExtras: NavigationExtras = {

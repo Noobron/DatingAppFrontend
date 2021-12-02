@@ -7,6 +7,7 @@ import { UserService } from 'src/app/_services/user.service';
 // Import Components
 import { User } from 'src/app/_models/user';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import { AccountApiService } from 'src/app/_services/account/account-api.service';
 
 @Component({
   selector: 'app-user-list',
@@ -35,8 +36,13 @@ export class UserListComponent implements OnInit {
     arrows: false,
   };
 
-  constructor(private userService: UserService) {
-    this.getNextUserBatch();
+  constructor(
+    private userService: UserService,
+    private accountApiService: AccountApiService
+  ) {
+    this.accountApiService.authenticate$.subscribe(() => {
+      this.getNextUserBatch();
+    });
   }
 
   ngOnInit(): void {}

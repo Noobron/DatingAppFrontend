@@ -114,7 +114,7 @@
             <a
               class="nav-link"
               (click)="selectAbout()"
-              [class.active]="selectedIndex === 0"
+              [class.active]="selectedIndex === ABOUT"
               >ABOUT</a
             >
           </li>
@@ -122,7 +122,7 @@
             <a
               class="nav-link"
               (click)="selectInterests()"
-              [class.active]="selectedIndex === 1"
+              [class.active]="selectedIndex === INTERESTS"
               >INTERESTS</a
             >
           </li>
@@ -130,14 +130,14 @@
             <a
               class="nav-link"
               (click)="selectPhotos()"
-              [class.active]="selectedIndex === 2"
+              [class.active]="selectedIndex === PHOTOS"
               >PHOTOS</a
             >
           </li>
         </ul>
         <div
           class="content about-content card"
-          [style.display]="selectedIndex === 0 ? 'block' : 'none'"
+          [style.display]="selectedIndex === ABOUT ? 'block' : 'none'"
         >
           <div class="card-body">
             <ng-container *ngIf="user.introduction">
@@ -166,7 +166,7 @@
         </div>
         <div
           class="content interests-content card"
-          [style.display]="selectedIndex === 1 ? 'block' : 'none'"
+          [style.display]="selectedIndex === INTERESTS ? 'block' : 'none'"
         >
           <div class="card-body">
             <ng-container *ngIf="user.interests">
@@ -186,7 +186,7 @@
         </div>
         <div
           class="content photos-content card"
-          [style.display]="selectedIndex === 2 ? 'block' : 'none'"
+          [style.display]="selectedIndex === PHOTOS ? 'block' : 'none'"
         >
           <div class="card-body">
             <ng-container *ngIf="galleryImages.length">

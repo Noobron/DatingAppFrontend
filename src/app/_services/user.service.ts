@@ -39,4 +39,9 @@ export class UserService {
       this.baseurl + API_Paths.photos + name
     );
   }
+
+  // Save user information
+  saveUserInfo(data: User) {
+    return this.http.put<User>(this.baseurl + API_Paths.editProfile, data);
+  }
 }

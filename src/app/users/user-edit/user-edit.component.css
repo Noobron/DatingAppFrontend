@@ -38,3 +38,20 @@
 .container {
   padding: 5%;
 }
+
+.form-control {
+  width: 70%;
+  margin: 1% auto 5% auto;
+}
+
+label {
+  margin-left: 13%;
+}
+
+.form-group {
+  margin-top: 3%;
+}
+
+.buttons {
+  margin-left: 11%;
+}

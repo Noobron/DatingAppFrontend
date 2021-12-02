@@ -7,16 +7,21 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 // Import Services
-import { AccountService } from '../_services/account.service';
+import { AccountApiService } from '../_services/account/account-api.service';
+import { NotificationService } from '../_services/notifcation.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private accountApiService: AccountApiService,
+    private router: Router,
+    private notifyService: NotificationService
+  ) {}
 
   canActivate(): Observable<boolean> {
-    return this.accountService.authenticate$
+    return this.accountApiService.authenticate$
       .pipe(
         map((account) => {
           if (account) return true;
@@ -25,10 +30,11 @@ export class AuthGuard implements CanActivate {
       )
       .pipe(
         tap((response) => {
-          if (!response) this.router.navigate(['/login']);
+          if (!response) {
+            this.notifyService.notifyWarning('', 'Login to access this page');
+            this.router.navigate(['/login']);
+          }
         })
       );
   }
-
- 
 }

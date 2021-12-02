@@ -28,6 +28,7 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
 
 // Import Pipes
 import { TimeAgo } from './_pipes/time-ago.pipe';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { TimeAgo } from './_pipes/time-ago.pipe';
     LoginComponent,
     UserDetailsComponent,
     TimeAgo,
+    UserEditComponent,
   ],
   imports: [
     BrowserModule,

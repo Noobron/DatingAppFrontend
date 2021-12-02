@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // Import Services
-import { AccountService } from '../_services/account.service';
+import { AccountApiService } from '../_services/account/account-api.service';
 import { NotificationService } from '../_services/notifcation.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   initialColor: string = '';
 
   constructor(
-    public accountService: AccountService,
+    public accountApiService: AccountApiService,
     private router: Router,
     private elementRef: ElementRef,
     private notify: NotificationService
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.accountService.login(this.model.value).subscribe(
+    this.accountApiService.login(this.model.value).subscribe(
       () => {
         this.router.navigate(['/find-matches']);
       },

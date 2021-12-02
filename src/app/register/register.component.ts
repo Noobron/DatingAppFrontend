@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 
 // Import Services
-import { AccountService } from '../_services/account.service';
+import { AccountApiService } from '../_services/account/account-api.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../_services/notifcation.service';
 
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   initialColor: string = '';
 
   constructor(
-    private accountService: AccountService,
+    private accountApiService: AccountApiService,
     private elementRef: ElementRef,
     private router: Router,
     private notify: NotificationService
@@ -53,10 +53,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   // Sends a HTTP POST request to backend to register a new User
   register() {
-    this.accountService.register(this.model.value).subscribe(
+    this.accountApiService.register(this.model.value).subscribe(
       (res$) => {
-        res$.subscribe((response) => {
-          console.log(response);
+        res$.subscribe(() => {
           this.router.navigate(['/members']);
         });
       },

@@ -14,7 +14,7 @@ import {
   NgxGalleryImage,
   NgxGalleryOptions,
 } from '@kolkov/ngx-gallery';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-user-details',
@@ -23,6 +23,10 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 })
 export class UserDetailsComponent implements OnInit {
   user: User | null = null;
+
+  ABOUT: number = 0;
+  INTERESTS: number = 1;
+  PHOTOS: number = 2;
 
   public selectedIndex = 0;
 
@@ -43,7 +47,7 @@ export class UserDetailsComponent implements OnInit {
       .getUser(this.route.snapshot.paramMap.get('username')!)
       .subscribe((response) => {
         this.user = response;
-console.log(this.user!.lookingFor);
+
         this.userService
           .getUserPhotos(this.user.username)
           .subscribe((response) => {
@@ -59,15 +63,15 @@ console.log(this.user!.lookingFor);
   }
 
   selectAbout() {
-    this.selectedIndex = 0;
+    this.selectedIndex = this.ABOUT;
   }
 
   selectInterests() {
-    this.selectedIndex = 1;
+    this.selectedIndex = this.INTERESTS;
   }
 
   selectPhotos() {
-    this.selectedIndex = 2;
+    this.selectedIndex = this.PHOTOS;
   }
 
   ngOnInit(): void {}

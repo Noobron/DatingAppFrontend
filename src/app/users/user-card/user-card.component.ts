@@ -1,5 +1,7 @@
 // Import Angular packages
 import { Component, Input, OnInit } from '@angular/core';
+
+// Import Models
 import { User } from 'src/app/_models/user';
 
 @Component({

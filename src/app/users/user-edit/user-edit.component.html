@@ -1,0 +1,293 @@
+<section style="background-color: #eee; margin-bottom: 3.5%">
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-4">
+        <h1 style="margin-top: 4%">Your Profile</h1>
+      </div>
+
+      <div *ngIf="!model.pristine" class="col-8 text-center">
+        <div class="alert alert-info">
+          <p style="margin-top: 2%">
+            <i class="fa fa-info-circle" style="margin-right: 1%"></i>
+            <strong
+              >You have made changes, any unsaved changes will be lost</strong
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="model" (ngSubmit)="onSubmit()">
+      <div class="row text">
+        <div class="col-lg-5">
+          <div class="card mb-4">
+            <div *ngIf="user != null" class="card-body text-center">
+              <div
+                class="thumbnail"
+                [style.background-image]="'url(' + user.mainPhoto + ')'"
+              ></div>
+              <h5 style="font-size: xx-large" class="my-3">
+                {{ user.firstName | titlecase }} {{ user.lastName | titlecase }}
+              </h5>
+              <p class="text-muted mb-1">@{{ user.username }}</p>
+              <p class="text-muted mb-4">
+                {{
+                  user.city && user.country
+                    ? user.city + ", " + user.country
+                    : "Not Dislosed"
+                }}
+              </p>
+            </div>
+          </div>
+
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul
+                *ngIf="user != null"
+                class="list-group list-group-flush rounded-3"
+              >
+                <li
+                  title="Gender"
+                  class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                  "
+                >
+                  <img
+                    width="10%"
+                    src="https://cdn-icons.flaticon.com/png/512/2517/premium/2517445.png?token=exp=1638112511~hmac=2f3d8b43b5520aa7c46923522cff5335"
+                  />
+                  <h6 class="mb-0">{{ user.gender | titlecase }}</h6>
+                </li>
+                <li
+                  title="Age"
+                  class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                  "
+                >
+                  <img
+                    width="10%"
+                    src="https://cdn-icons-png.flaticon.com/512/3788/3788080.png"
+                  />
+                  <h6 class="mb-0">
+                    {{ user.age !== -1 ? user.age : "Not Disclosed" }}
+                  </h6>
+                </li>
+                <li
+                  title="Date of Birth"
+                  class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                  "
+                >
+                  <img
+                    width="10%"
+                    src="https://cdn-icons.flaticon.com/png/512/2195/premium/2195471.png?token=exp=1638111644~hmac=b7559b082234c2728f5303bde425bc57"
+                  />
+                  <h6>{{ user.dateOfBirth | date }}</h6>
+                  <h6 *ngIf="user.dateOfBirth == null">
+                    {{ "Not Dsiclosed" }}
+                  </h6>
+                </li>
+                <li
+                  title="Last Active"
+                  class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                  "
+                >
+                  <img
+                    width="12%"
+                    src="https://cdn-icons.flaticon.com/png/512/4450/premium/4450309.png?token=exp=1638112771~hmac=c2111127fe2d204894510a25f30a597c"
+                  />
+                  <h6>{{ user.lastActive | timeAgo }}</h6>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="user != null" class="col-lg-7">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                (click)="selectBasicInfo()"
+                [class.active]="selectedIndex === BASIC"
+                >EDIT BASIC INFO</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                (click)="selectAbout()"
+                [class.active]="selectedIndex === ABOUT"
+                >ABOUT</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                (click)="selectInterests()"
+                [class.active]="selectedIndex === INTERESTS"
+                >INTERESTS</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                (click)="selectPhotos()"
+                [class.active]="selectedIndex === PHOTOS"
+                >EDIT PHOTOS</a
+              >
+            </li>
+          </ul>
+
+          <div
+            class="content basic-content card"
+            [style.display]="selectedIndex === BASIC ? 'block' : 'none'"
+          >
+            <div class="card-body">
+              <div class="form-group">
+                <div class="row">
+                  <label class="h6" for="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control"
+                    formControlName="firstName"
+                    placeholder="First Name"
+                    autocomplete="off"
+                  />
+
+                  <label class="h6" for="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    formControlName="lastName"
+                    class="form-control"
+                    placeholder="Last Name"
+                    autocomplete="off"
+                  />
+
+                  <label class="h6" for="city">City</label>
+                  <input
+                    type="text"
+                    id="city"
+                    class="form-control"
+                    formControlName="city"
+                    placeholder="City"
+                    autocomplete="off"
+                  />
+
+                  <label class="h6" for="country">Country</label>
+                  <input
+                    type="text"
+                    id="country"
+                    formControlName="country"
+                    class="form-control"
+                    placeholder="Last Name"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <div class="buttons row">
+                <div class="col-6">
+                  <button
+                    type="button"
+                    (click)="reset()"
+                    class="btn btn-outline-primary"
+                  >
+                    RESET
+                  </button>
+                </div>
+
+                <div *ngIf="model.valid" class="col-5">
+                  <button type="submit" class="btn btn-outline-success">
+                    SAVE CHANGES
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="content about-content card"
+            [style.display]="selectedIndex === ABOUT ? 'block' : 'none'"
+          >
+            <div class="card-body">
+              <h4>About {{ user?.firstName | titlecase }}</h4>
+              <textarea
+                formControlName="introduction"
+                style="padding: 2%"
+                cols="65"
+                rows="6"
+              ></textarea>
+
+              <h5 style="margin-top: 10%">Looking for</h5>
+              <textarea
+                formControlName="lookingFor"
+                style="padding: 2%"
+                cols="65"
+                rows="6"
+              ></textarea>
+            </div>
+          </div>
+
+          <div
+            class="content interests-content card"
+            [style.display]="selectedIndex === INTERESTS ? 'block' : 'none'"
+          >
+            <div class="card-body">
+              <h4>Interested in</h4>
+              <textarea
+                formControlName="interests"
+                style="padding: 2%"
+                cols="65"
+                rows="6"
+              ></textarea>
+            </div>
+          </div>
+
+          <div
+            class="content photos-content card"
+            [style.display]="selectedIndex === PHOTOS ? 'block' : 'none'"
+          >
+            <div class="card-body">
+              <ng-container *ngIf="galleryImages.length">
+                <ngx-gallery
+                  style="display: inline-block; margin-bottom: 20px"
+                  [options]="galleryOptions"
+                  [images]="galleryImages"
+                ></ngx-gallery>
+              </ng-container>
+
+              <ng-container *ngIf="galleryImages.length === 0">
+                <img
+                  width="50%"
+                  style="margin-left: 23%; margin-top: 20%"
+                  src="https://cdn3.iconfinder.com/data/icons/online-states/150/Photos-1024.png"
+                  alt="Empty User Info"
+                />
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

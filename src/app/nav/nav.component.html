@@ -6,10 +6,13 @@
       <ul
         class="navbar-nav me-auto mb-2 mb-md-0"
         style="margin-right: auto"
-        *ngIf="accountService.currentAccount$ | async"
+        *ngIf="accountManagerService.currentAccount$ | async"
       >
         <li class="nav-item">
-          <a class="nav-link" routerLink="/find-matches" routerLinkActive="active"
+          <a
+            class="nav-link"
+            routerLink="/find-matches"
+            routerLinkActive="active"
             >Find Matches</a
           >
         </li>
@@ -25,23 +28,27 @@
         </li>
       </ul>
 
-      <div
-        class="dropdown"
-        *ngIf="accountService.currentAccount$ | async as account"
-        dropdown
+      <ng-container
+        *ngIf="accountManagerService.currentAccount$ | async as account"
       >
-        <a class="dropdown-toggle text-light" dropdownToggle
-          >Welcome {{ account.username }}</a
-        >
-        <div class="dropdown-menu mt-3" *dropdownMenu>
-          <a class="dropdown-item">Edit Profile</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" (click)="logout()">Logout</a>
+        <div style="margin-right: 1%" class="dropdown" dropdown>
+          <a class="dropdown-toggle text-light h5" dropdownToggle></a>
+          <div class="dropdown-menu mt-4" *dropdownMenu>
+            <a class="dropdown-item" routerLink="/edit-profile">Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
         </div>
-      </div>
+
+        <div
+          *ngIf="user != null"
+          class="thumbnail"
+          [style.background-image]="'url(' + user.mainPhoto + ')'"
+        ></div>
+      </ng-container>
 
       <ul
-        *ngIf="!(accountService.currentAccount$ | async)"
+        *ngIf="!(accountManagerService.currentAccount$ | async)"
         class="navbar-nav ml-auto mb-2 mb-md-0"
       >
         <li class="nav-item">

@@ -8,24 +8,20 @@ import { map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 
 // Import other dependencies
-import { environment } from '../../environments/environment';
-import { API_Paths } from '../api/paths';
-import { Account } from '../_models/account';
-import { Token } from '../_models/token';
+import { environment } from '../../../environments/environment';
+import { API_Paths } from '../../api/paths';
+import { Account } from '../../_models/account';
+import { Token } from '../../_models/token';
 
 // Import Services
-import { TokenService } from './token.service';
+import { TokenService } from '../token.service';
+import { AccountManagerService } from './account-manager.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AccountService {
+export class AccountApiService {
   private baseurl: string = environment.API_URL;
-  private currentAccount: Account | null = null;
-
-  // RxJS Subject for observing and emitting Account object
-  private currentAccountSource = new ReplaySubject<Account>(1);
-  currentAccount$ = this.currentAccountSource.asObservable();
 
   // Observable to check if user is authenticated and authenticate user if there is valid refresh token
   authenticate$ = new Observable((observer: Observer<boolean>) => {
@@ -47,12 +43,12 @@ export class AccountService {
           username: access_token.username,
         };
 
-        this.setCurrentAccount(account);
-
         this.tokenService.setAccessToken(
           response.access,
           new Date(parseInt(access_token.exp) * 1000)
         );
+
+        this.accountManagerService.setCurrentAccount(account);
 
         this.tokenService.setRefreshTokenValid();
 
@@ -65,7 +61,11 @@ export class AccountService {
     );
   });
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+    private accountManagerService: AccountManagerService
+  ) {
     // login the last user if refresh token is valid
     this.authenticate$.subscribe();
   }
@@ -83,37 +83,23 @@ export class AccountService {
         };
 
         if (account) {
-          this.currentAccount = account;
+          this.accountManagerService.setCurrentAccount(account);
           this.tokenService.setRefreshTokenValid();
           this.tokenService.setAccessToken(
             response.access,
             new Date(parseInt(access_token.exp) * 1000)
           );
-          this.currentAccountSource.next(account);
         }
       })
     );
   }
 
-  // get current Account
-  getCurrentAccount() {
-    return this.currentAccount;
-  }
-
-  // set current Account and emit it using the Subject
-  setCurrentAccount(account: Account | null) {
-    if (account) {
-      this.currentAccount = account;
-      this.currentAccountSource.next(account);
-    } else this.currentAccountSource.next();
-  }
-
-  // remove Account object and tokens from local storage associated with current user account
+  // remove Account object and tokens associated with current user account
   logout() {
     this.http.get(environment.API_URL + API_Paths.logout).subscribe(() => {
       this.tokenService.removeAccessToken();
       this.tokenService.setRefreshTokenInvalid();
-      this.currentAccountSource.next();
+      this.accountManagerService.removeCurrentAccount();
     });
   }
 

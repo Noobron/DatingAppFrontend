@@ -7,22 +7,20 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Import Services
-import { AccountService } from '../_services/account.service';
+import { AccountApiService } from '../_services/account/account-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserLoggedInGuard implements CanActivate {
-  constructor(private accountService: AccountService) {}
+  constructor(private accountApiService: AccountApiService) {}
 
   canActivate(): Observable<boolean> {
-    return this.accountService.authenticate$
-      .pipe(
-        map((account) => {
-          if (account) return false;
-          return true;
-        })
-      )
-     
+    return this.accountApiService.authenticate$.pipe(
+      map((account) => {
+        if (account) return false;
+        return true;
+      })
+    );
   }
 }

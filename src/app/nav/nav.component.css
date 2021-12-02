@@ -14,3 +14,14 @@
   font-family: "MuseoModerno";
   font-size: x-large;
 }
+
+.thumbnail {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  margin:0;
+  border-radius: 100%;
+  background-position: center;
+  background-size: 100%;
+  box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
