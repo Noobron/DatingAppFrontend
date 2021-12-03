@@ -17,11 +17,11 @@ import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
 
 // Import Services
-import { TokenService } from '../_services/token.service';
-import { NotificationService } from '../_services/notifcation.service';
+import { TokenService } from '../services/token.service';
+import { NotificationService } from '../services/notifcation.service';
 import { NavigationExtras, Router } from '@angular/router';
-import { Token } from '../_models/token';
-import { AccountManagerService } from '../_services/account/account-manager.service';
+import { Token } from '../models/token';
+import { AccountManagerService } from '../services/account/account-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Import Services
-import { AccountApiService } from '../_services/account/account-api.service';
+import { AccountApiService } from '../services/account/account-api.service';
 
 @Injectable({
   providedIn: 'root',

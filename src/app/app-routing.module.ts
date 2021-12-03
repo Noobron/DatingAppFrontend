@@ -15,8 +15,9 @@ import { ServerErrorComponent } from './server-error/server-error.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 // Import Guards
-import { AuthGuard } from './_guards/auth.guard';
-import { UserLoggedInGuard } from './_guards/user-logged-in.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { UserLoggedInGuard } from './guards/user-logged-in.guard';
+import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,7 +26,11 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'edit-profile', component: UserEditComponent },
+      {
+        path: 'edit-profile',
+        component: UserEditComponent,
+        canDeactivate: [PreventUnsavedChangesGuard],
+      },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],

@@ -1,5 +1,5 @@
 // Import Angular Packages
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 // Import other dependencies
@@ -10,12 +10,12 @@ import {
 } from '@kolkov/ngx-gallery';
 
 // Import Models
-import { User } from 'src/app/_models/user';
+import { User } from 'src/app/models/user';
 
 // Import Services
-import { AccountManagerService } from 'src/app/_services/account/account-manager.service';
-import { NotificationService } from 'src/app/_services/notifcation.service';
-import { UserService } from 'src/app/_services/user.service';
+import { AccountManagerService } from 'src/app/services/account/account-manager.service';
+import { NotificationService } from 'src/app/services/notifcation.service';
+import { UserService } from 'src/app/services/user/user-api.service';
 
 const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
 
@@ -31,6 +31,14 @@ export class UserEditComponent implements OnInit {
   ABOUT: number = 1;
   INTERESTS: number = 2;
   PHOTOS: number = 3;
+
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
+    if (this.model.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   model = new FormGroup({
     firstName: new FormControl('', [
@@ -75,27 +83,29 @@ export class UserEditComponent implements OnInit {
     private userService: UserService,
     private notify: NotificationService
   ) {
-    let account = this.accountManagerService.getCurrentAccount();
+    this.accountManagerService.currentAccount$.subscribe((acc) => {
+      this.userService.getUser(acc.username).subscribe((response) => {
+        this.user = response;
 
-    this.userService.getUser(account!.username).subscribe((response) => {
-      this.user = response;
+        this.model.reset();
 
-      let userCopy = { ...this.user };
-      const { lastActive, age, username, gender, dateOfBirth, ...temp } =
-        userCopy;
-      this.model.setValue(temp);
+        let userCopy = { ...this.user };
+        const { lastActive, age, username, gender, dateOfBirth, ...temp } =
+          userCopy;
+        this.model.setValue(temp);
 
-      this.userService
-        .getUserPhotos(this.user.username)
-        .subscribe((response) => {
-          response.forEach((file) => {
-            this.galleryImages.push({
-              small: file.image,
-              medium: file.image,
-              big: file.image,
+        this.userService
+          .getUserPhotos(this.user.username)
+          .subscribe((response) => {
+            response.forEach((file) => {
+              this.galleryImages.push({
+                small: file.image,
+                medium: file.image,
+                big: file.image,
+              });
             });
           });
-        });
+      });
     });
   }
 
@@ -132,6 +142,10 @@ export class UserEditComponent implements OnInit {
 
     this.userService.saveUserInfo(data).subscribe(
       () => {
+        // refresh account details
+        this.accountManagerService.setCurrentAccount(
+          this.accountManagerService.getCurrentAccount()
+        );
         this.notify.notifySuccess('Success', 'Profile Updated');
       },
       (error) => {

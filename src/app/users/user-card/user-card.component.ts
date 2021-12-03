@@ -2,7 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 // Import Models
-import { User } from 'src/app/_models/user';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-user-card',

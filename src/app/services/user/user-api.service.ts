@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 // Import other dependencies
-import { environment } from '../../environments/environment';
-import { API_Paths } from '../api/paths';
+import { environment } from '../../../environments/environment';
+import { API_Paths } from '../../api/paths';
 
 // Import Interfaces
-import { User } from '../_models/user';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root',

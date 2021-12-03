@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
 // Import other dependencies
-import { Account } from '../../_models/account';
+import { Account } from '../../models/account';
 
 @Injectable({
   providedIn: 'root',

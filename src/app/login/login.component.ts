@@ -4,8 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // Import Services
-import { AccountApiService } from '../_services/account/account-api.service';
-import { NotificationService } from '../_services/notifcation.service';
+import { AccountApiService } from '../services/account/account-api.service';
+import { NotificationService } from '../services/notifcation.service';
 
 @Component({
   selector: 'app-login',

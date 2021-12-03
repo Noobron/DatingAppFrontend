@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Import Models
-import { User } from '../_models/user';
+import { User } from '../models/user';
 
 // Import Services
-import { AccountApiService } from '../_services/account/account-api.service';
-import { AccountManagerService } from '../_services/account/account-manager.service';
-import { UserService } from '../_services/user.service';
+import { AccountApiService } from '../services/account/account-api.service';
+import { AccountManagerService } from '../services/account/account-manager.service';
+import { UserService } from '../services/user/user-api.service';
 
 @Component({
   selector: 'app-nav',

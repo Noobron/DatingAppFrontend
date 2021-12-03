@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // Import Models
-import { User } from 'src/app/_models/user';
+import { User } from 'src/app/models/user';
 
 // Import Services
-import { UserService } from 'src/app/_services/user.service';
+import { UserService } from 'src/app/services/user/user-api.service';
 
 // Import other dependencies
 import {

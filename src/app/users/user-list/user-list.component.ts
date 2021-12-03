@@ -2,12 +2,12 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 
 // Import Services
-import { UserService } from 'src/app/_services/user.service';
+import { UserService } from 'src/app/services/user/user-api.service';
 
 // Import Components
-import { User } from 'src/app/_models/user';
+import { User } from 'src/app/models/user';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
-import { AccountApiService } from 'src/app/_services/account/account-api.service';
+import { AccountApiService } from 'src/app/services/account/account-api.service';
 
 @Component({
   selector: 'app-user-list',

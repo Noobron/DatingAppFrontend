@@ -10,8 +10,8 @@ import jwt_decode from 'jwt-decode';
 // Import other dependencies
 import { environment } from '../../../environments/environment';
 import { API_Paths } from '../../api/paths';
-import { Account } from '../../_models/account';
-import { Token } from '../../_models/token';
+import { Account } from '../../models/account';
+import { Token } from '../../models/token';
 
 // Import Services
 import { TokenService } from '../token.service';

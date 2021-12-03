@@ -2,10 +2,10 @@
 import { Component, OnInit } from '@angular/core';
 
 // Import Models
-import { Account } from './_models/account';
+import { Account } from './models/account';
 
 // Import Services
-import { AccountManagerService } from './_services/account/account-manager.service';
+import { AccountManagerService } from './services/account/account-manager.service';
 
 @Component({
   selector: 'app-root',

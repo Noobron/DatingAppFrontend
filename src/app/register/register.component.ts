@@ -10,9 +10,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 
 // Import Services
-import { AccountApiService } from '../_services/account/account-api.service';
+import { AccountApiService } from '../services/account/account-api.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../_services/notifcation.service';
+import { NotificationService } from '../services/notifcation.service';
 
 @Component({
   selector: 'app-register',

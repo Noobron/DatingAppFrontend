@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 // Import Services
-import { AccountApiService } from '../_services/account/account-api.service';
-import { NotificationService } from '../_services/notifcation.service';
+import { AccountApiService } from '../services/account/account-api.service';
+import { NotificationService } from '../services/notifcation.service';
 
 @Injectable({
   providedIn: 'root',
