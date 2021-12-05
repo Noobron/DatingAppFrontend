@@ -7,6 +7,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
@@ -18,12 +20,16 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
     }),
     SlickCarouselModule,
     NgxGalleryModule,
+    NgxSpinnerModule,
+    FormsModule
   ],
   exports: [
     BsDropdownModule,
     ToastrModule,
     SlickCarouselModule,
     NgxGalleryModule,
+    NgxSpinnerModule,
+    FormsModule
   ],
 })
 export class SharedModule {}

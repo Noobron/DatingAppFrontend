@@ -44,10 +44,7 @@
                   p-3
                 "
               >
-                <img
-                  width="10%"
-                  src="https://cdn-icons.flaticon.com/png/512/2517/premium/2517445.png?token=exp=1638112511~hmac=2f3d8b43b5520aa7c46923522cff5335"
-                />
+                <img width="10%" src="../../../assets/gender-icon.png" />
                 <h6 class="mb-0">{{ user.gender | titlecase }}</h6>
               </li>
               <li
@@ -60,10 +57,7 @@
                   p-3
                 "
               >
-                <img
-                  width="10%"
-                  src="https://cdn-icons-png.flaticon.com/512/3788/3788080.png"
-                />
+                <img width="10%" src="../../../assets/age-icon.png" />
                 <h6 class="mb-0">
                   {{ user.age !== -1 ? user.age : "Not Disclosed" }}
                 </h6>
@@ -78,10 +72,7 @@
                   p-3
                 "
               >
-                <img
-                  width="10%"
-                  src="https://cdn-icons.flaticon.com/png/512/2195/premium/2195471.png?token=exp=1638111644~hmac=b7559b082234c2728f5303bde425bc57"
-                />
+                <img width="11%" src="../../../assets/date-of-birth-icon.png" />
                 <h6>{{ user.dateOfBirth | date }}</h6>
                 <h6 *ngIf="user.dateOfBirth == null">
                   {{ "Not Dsiclosed" }}
@@ -98,8 +89,8 @@
                 "
               >
                 <img
-                  width="12%"
-                  src="https://cdn-icons.flaticon.com/png/512/4450/premium/4450309.png?token=exp=1638112771~hmac=c2111127fe2d204894510a25f30a597c"
+                  width="10%"
+                  src="../.../../../../assets/last-seen-icon.png"
                 />
                 <h6>{{ user.lastActive | timeAgo }}</h6>
               </li>
@@ -158,7 +149,7 @@
               <img
                 width="50%"
                 style="margin-left: 23%; margin-top: 20%"
-                src="https://cdn-icons.flaticon.com/png/512/3689/premium/3689248.png?token=exp=1638202370~hmac=a663653b8854a772412c1119498170c2"
+                src="../../../assets/empty-info.png"
                 alt="Empty User Info"
               />
             </ng-container>
@@ -178,7 +169,7 @@
               <img
                 width="50%"
                 style="margin-left: 23%; margin-top: 20%"
-                src="https://cdn-icons.flaticon.com/png/512/3689/premium/3689248.png?token=exp=1638202370~hmac=a663653b8854a772412c1119498170c2"
+                src="../../../assets/empty-info.png"
                 alt="Empty User Info"
               />
             </ng-container>
@@ -201,8 +192,8 @@
               <img
                 width="50%"
                 style="margin-left: 23%; margin-top: 20%"
-                src="https://cdn3.iconfinder.com/data/icons/online-states/150/Photos-1024.png"
-                alt="Empty User Info"
+                src="../../../assets/empty-gallery.png"
+                alt="Empty Image Gallery"
               />
             </ng-container>
           </div>

@@ -1,0 +1,12 @@
+.progress {
+  margin: 15% 0;
+}
+
+.upload button:hover {
+  color: white;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}

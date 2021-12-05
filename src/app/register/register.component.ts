@@ -40,11 +40,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
         Validators.minLength(3),
       ]),
       password: new FormControl('', [Validators.required]),
-      first_name: new FormControl('', [
+      firstName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
       ]),
-      last_name: new FormControl('', [
+      lastName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
       ]),

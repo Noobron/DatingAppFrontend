@@ -21,7 +21,7 @@
   margin-right: auto;
   margin-bottom: 1.5em;
   background-position: center;
-  background-size: 100%;
+  background-size: cover;
   border-radius: 100%;
   box-shadow: 0 13px 26px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
 }
@@ -31,7 +31,7 @@
 }
 
 .content {
-  margin-top: 5%;
+  margin: 5% 0;
   height: 87%;
 }
 
@@ -55,3 +55,33 @@ label {
 .buttons {
   margin-left: 11%;
 }
+
+.edit-profile-photo-card:hover .popout {
+  display: block;
+}
+
+.popout {
+  display: none;
+  animation: popout 0.3s ease;
+}
+@keyframes popout {
+  from {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.icon {
+  float: initial;
+width: 1%;
+  user-select: none;
+  cursor: pointer;
+  margin-left: 22%;
+}
+
+

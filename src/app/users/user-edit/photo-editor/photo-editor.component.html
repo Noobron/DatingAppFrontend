@@ -1,0 +1,16 @@
+<div style="margin-left: 1%" class="row gx">
+  <ng-container *ngFor="let item of images">
+    <div class="col-4 image">
+      <img
+        (click)="deletePhoto(item)"
+        class="popout icon"
+        title="Delete Photo"
+        src="../../../../assets/delete-icon.png"
+      />
+      <div
+        class="thumbnail"
+        [style.background-image]="'url(' + item.image + ')'"
+      ></div>
+    </div>
+  </ng-container>
+</div>

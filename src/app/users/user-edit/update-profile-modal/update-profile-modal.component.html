@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Profile photo updation</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close button"
+    aria-describedby="modal-title"
+    (click)="modal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Enter the link of you new profile photo profile</p>
+  <input style="width: 100%" type="text" [(ngModel)]="profileUrl" />
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="modal.close('update click')"
+  >
+    Set as profile photo
+  </button>
+  <button
+    type="button"
+    ngbAutofocus
+    class="btn btn-danger"
+    (click)="modal.dismiss('cancel click')"
+  >
+    Cancel
+  </button>
+</div>

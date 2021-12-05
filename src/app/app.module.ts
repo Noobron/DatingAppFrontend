@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Import Modules
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './modules/shared.module';
-import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Import Components
 import { AppComponent } from './app.component';
@@ -24,6 +23,9 @@ import { LoginComponent } from './login/login.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { PhotoEditorComponent } from './users/user-edit/photo-editor/photo-editor.component';
+import { ImageUploadComponent } from './users/user-edit/image-upload/image-upload.component';
+import { UpdateProfileModalComponent } from './users/user-edit/update-profile-modal/update-profile-modal.component';
 
 // Import Interceptors
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -48,6 +50,9 @@ import { TimeAgo } from './pipes/time-ago.pipe';
     UserDetailsComponent,
     TimeAgo,
     UserEditComponent,
+    PhotoEditorComponent,
+    ImageUploadComponent,
+    UpdateProfileModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +61,6 @@ import { TimeAgo } from './pipes/time-ago.pipe';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     SharedModule,
-    NgxSpinnerModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

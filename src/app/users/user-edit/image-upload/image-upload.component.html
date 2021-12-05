@@ -1,0 +1,56 @@
+<div class="content">
+  <div class="column">
+    <div class="field">
+      <div class="file">
+        <input
+          class="file-input"
+          type="file"
+          accept=".png, .jpg, .jpeg, .gif"
+          name="file"
+          #fileInput
+          (change)="
+            onChange(fileInput.files != null ? fileInput.files[0] : null)
+          "
+        />
+      </div>
+    </div>
+
+    <div class="message" *ngIf="infoMessage">
+      <div class="message-body">
+        {{ infoMessage }}
+      </div>
+    </div>
+
+    <div *ngIf="fileValidError">
+      <p style="color: red" class="alert">
+        <strong>Please upload an image of valid format</strong>
+        <br />
+        <strong>(.png, .jpg, .jpeg, .gif)</strong>
+      </p>
+    </div>
+
+    <ng-container *ngIf="fileValid">
+      <div class="progress">
+        <div
+          class="progress-bar"
+          role="progressbar"
+          [style.width.pt]="progress*2"
+          [attr.aria-valuenow]="progress*2"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          *ngIf="fileValid"
+        ></div>
+      </div>
+
+      <div style="margin-left: 35%" class="upload">
+        <button
+          [attr.disabled]="isUploading ? '' : null"
+          class="btn btn-outline-warning"
+          (click)="onUpload()"
+        >
+          Upload
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</div>

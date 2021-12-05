@@ -1,11 +1,11 @@
 <section style="background-color: #eee; margin-bottom: 3.5%">
   <div class="container py-4">
     <div class="row">
-      <div class="col-4">
+      <div class="text col-4">
         <h1 style="margin-top: 4%">Your Profile</h1>
       </div>
 
-      <div *ngIf="!model.pristine" class="col-8 text-center">
+      <div *ngIf="model.dirty" class="col-8 text text-center">
         <div class="alert alert-info">
           <p style="margin-top: 2%">
             <i class="fa fa-info-circle" style="margin-right: 1%"></i>
@@ -21,7 +21,27 @@
       <div class="row text">
         <div class="col-lg-5">
           <div class="card mb-4">
-            <div *ngIf="user != null" class="card-body text-center">
+            <div
+              *ngIf="user != null"
+              class="card-body edit-profile-photo-card text-center"
+            >
+              <div class="row">
+                <img
+                  (click)="removeProfilePhoto()"
+                  class="col-2 popout icon"
+                  title="Delete Profile Photo"
+                  src="../../../assets/delete-icon.png"
+                />
+
+                <img
+                  type="button"
+                  title="Update Profile Photo"
+                  class="col-2 popout icon"
+                  (click)="open()"
+                  src="../../../assets/edit-icon.png"
+                />
+              </div>
+
               <div
                 class="thumbnail"
                 [style.background-image]="'url(' + user.mainPhoto + ')'"
@@ -56,10 +76,7 @@
                     p-3
                   "
                 >
-                  <img
-                    width="10%"
-                    src="https://cdn-icons.flaticon.com/png/512/2517/premium/2517445.png?token=exp=1638112511~hmac=2f3d8b43b5520aa7c46923522cff5335"
-                  />
+                  <img width="10%" src="../../../assets/gender-icon.png" />
                   <h6 class="mb-0">{{ user.gender | titlecase }}</h6>
                 </li>
                 <li
@@ -72,10 +89,7 @@
                     p-3
                   "
                 >
-                  <img
-                    width="10%"
-                    src="https://cdn-icons-png.flaticon.com/512/3788/3788080.png"
-                  />
+                  <img width="10%" src="../../../assets/age-icon.png" />
                   <h6 class="mb-0">
                     {{ user.age !== -1 ? user.age : "Not Disclosed" }}
                   </h6>
@@ -91,8 +105,8 @@
                   "
                 >
                   <img
-                    width="10%"
-                    src="https://cdn-icons.flaticon.com/png/512/2195/premium/2195471.png?token=exp=1638111644~hmac=b7559b082234c2728f5303bde425bc57"
+                    width="11%"
+                    src="../../../assets/date-of-birth-icon.png"
                   />
                   <h6>{{ user.dateOfBirth | date }}</h6>
                   <h6 *ngIf="user.dateOfBirth == null">
@@ -110,8 +124,8 @@
                   "
                 >
                   <img
-                    width="12%"
-                    src="https://cdn-icons.flaticon.com/png/512/4450/premium/4450309.png?token=exp=1638112771~hmac=c2111127fe2d204894510a25f30a597c"
+                    width="10%"
+                    src="../.../../../../assets/last-seen-icon.png"
                   />
                   <h6>{{ user.lastActive | timeAgo }}</h6>
                 </li>
@@ -126,7 +140,7 @@
               <a
                 class="nav-link"
                 (click)="selectBasicInfo()"
-                [class.active]="selectedIndex === BASIC"
+                [class.active]="selectedIndex === TABS.BASIC"
                 >EDIT BASIC INFO</a
               >
             </li>
@@ -134,7 +148,7 @@
               <a
                 class="nav-link"
                 (click)="selectAbout()"
-                [class.active]="selectedIndex === ABOUT"
+                [class.active]="selectedIndex === TABS.ABOUT"
                 >ABOUT</a
               >
             </li>
@@ -142,17 +156,60 @@
               <a
                 class="nav-link"
                 (click)="selectInterests()"
-                [class.active]="selectedIndex === INTERESTS"
+                [class.active]="selectedIndex === TABS.INTERESTS"
                 >INTERESTS</a
               >
             </li>
             <li class="nav-item">
               <a
                 class="nav-link"
-                (click)="selectPhotos()"
-                [class.active]="selectedIndex === PHOTOS"
+                (click)="selectEditPhotos()"
+                [class.active]="selectedIndex === TABS.EDIT_PHOTOS"
                 >EDIT PHOTOS</a
               >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                (click)="selectAddPhotos()"
+                [class.active]="selectedIndex === TABS.ADD_PHOTOS"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 172 172"
+                  style="fill: #000000"
+                >
+                  <g
+                    fill="none"
+                    fill-rule="nonzero"
+                    stroke="none"
+                    stroke-width="1"
+                    stroke-linecap="butt"
+                    stroke-linejoin="miter"
+                    stroke-miterlimit="10"
+                    stroke-dasharray=""
+                    stroke-dashoffset="0"
+                    font-family="none"
+                    font-weight="none"
+                    font-size="none"
+                    text-anchor="none"
+                    style="mix-blend-mode: normal"
+                  >
+                    <path
+                      d="M0,172.00002v-172.00002h172.00002v172.00002z"
+                      fill="none"
+                    ></path>
+                    <g fill="#6200ff">
+                      <path
+                        d="M22.93333,28.66667c-6.33533,0 -11.46667,5.13133 -11.46667,11.46667v91.73333c0,6.33533 5.13133,11.46667 11.46667,11.46667h58.65469c-0.8428,-3.69227 -1.32136,-7.52213 -1.32136,-11.46667c0,-1.93787 0.12381,-3.84707 0.33594,-5.73333h-51.93594v-40.13333l13.12396,-13.12396c5.418,-5.41801 14.20075,-5.41801 19.61875,0l28.72265,28.72265c9.37973,-12.90573 24.55757,-21.33203 41.73464,-21.33203c10.6124,0 20.468,3.20825 28.66667,8.70078v-48.83411c0,-6.33533 -5.13133,-11.46667 -11.46667,-11.46667zM131.86667,45.86667c6.33533,0 11.46667,5.13133 11.46667,11.46667c0,6.33533 -5.13133,11.46667 -11.46667,11.46667c-6.33533,0 -11.46667,-5.13133 -11.46667,-11.46667c0,-6.33533 5.13133,-11.46667 11.46667,-11.46667zM131.86667,91.73333c-22.16507,0 -40.13333,17.96827 -40.13333,40.13333c0,22.16507 17.96827,40.13333 40.13333,40.13333c22.16507,0 40.13333,-17.96827 40.13333,-40.13333c0,-22.16507 -17.96827,-40.13333 -40.13333,-40.13333zM131.86667,108.93333c3.1648,0 5.73333,2.5628 5.73333,5.73333v11.46667h11.46667c3.1648,0 5.73333,2.5628 5.73333,5.73333c0,3.17053 -2.56853,5.73333 -5.73333,5.73333h-11.46667v11.46667c0,3.17053 -2.56853,5.73333 -5.73333,5.73333c-3.1648,0 -5.73333,-2.5628 -5.73333,-5.73333v-11.46667h-11.46667c-3.1648,0 -5.73333,-2.5628 -5.73333,-5.73333c0,-3.17053 2.56853,-5.73333 5.73333,-5.73333h11.46667v-11.46667c0,-3.17053 2.56853,-5.73333 5.73333,-5.73333z"
+                      ></path>
+                    </g>
+                  </g>
+                </svg>
+              </a>
             </li>
           </ul>
 
@@ -227,7 +284,7 @@
 
           <div
             class="content about-content card"
-            [style.display]="selectedIndex === ABOUT ? 'block' : 'none'"
+            [style.display]="selectedIndex === TABS.ABOUT ? 'block' : 'none'"
           >
             <div class="card-body">
               <h4>About {{ user?.firstName | titlecase }}</h4>
@@ -250,7 +307,9 @@
 
           <div
             class="content interests-content card"
-            [style.display]="selectedIndex === INTERESTS ? 'block' : 'none'"
+            [style.display]="
+              selectedIndex === TABS.INTERESTS ? 'block' : 'none'
+            "
           >
             <div class="card-body">
               <h4>Interested in</h4>
@@ -264,26 +323,37 @@
           </div>
 
           <div
-            class="content photos-content card"
-            [style.display]="selectedIndex === PHOTOS ? 'block' : 'none'"
+            class="content edit-photos-content card"
+            [style.display]="
+              selectedIndex === TABS.EDIT_PHOTOS ? 'block' : 'none'
+            "
           >
             <div class="card-body">
-              <ng-container *ngIf="galleryImages.length">
-                <ngx-gallery
-                  style="display: inline-block; margin-bottom: 20px"
-                  [options]="galleryOptions"
-                  [images]="galleryImages"
-                ></ngx-gallery>
+              <ng-container *ngIf="userImages.length">
+                <app-photo-editor
+                  style="margin-bottom: 20px"
+                  [images]="userImages"
+                ></app-photo-editor>
               </ng-container>
 
-              <ng-container *ngIf="galleryImages.length === 0">
+              <ng-container *ngIf="userImages.length === 0">
                 <img
                   width="50%"
                   style="margin-left: 23%; margin-top: 20%"
-                  src="https://cdn3.iconfinder.com/data/icons/online-states/150/Photos-1024.png"
-                  alt="Empty User Info"
+                  src="../../../assets/empty-gallery.png"
+                  alt="Empty Image Gallery"
                 />
               </ng-container>
+            </div>
+          </div>
+          <div
+            class="content add-photos-content card"
+            [style.display]="
+              selectedIndex === TABS.ADD_PHOTOS ? 'block' : 'none'
+            "
+          >
+            <div style="margin-top: 30%" class="card-body">
+              <app-image-upload (refresh)="retrieveImages()"></app-image-upload>
             </div>
           </div>
         </div>

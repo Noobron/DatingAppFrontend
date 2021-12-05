@@ -7,4 +7,6 @@ export enum API_Paths {
   users = 'accounts/users/',
   photos = 'accounts/get-photos/',
   editProfile = 'accounts/edit-profile/',
+  addPhoto = 'accounts/add-photo/',
+  deletePhoto = 'accounts/delete-photo/',
 }
