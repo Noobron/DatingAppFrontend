@@ -1,6 +1,6 @@
 // Import Angular packages
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 // Import Services
@@ -17,6 +17,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   model: FormGroup;
 
   initialColor: string = '';
+
+  getErrorMessage(control: AbstractControl) {
+    if (control.dirty && control.errors) {
+      if (control.errors.required) return 'This field is required';
+    }
+    return '';
+  }
 
   constructor(
     public accountApiService: AccountApiService,

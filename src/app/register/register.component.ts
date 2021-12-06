@@ -6,13 +6,34 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { EventEmitter } from '@angular/core';
 
 // Import Services
 import { AccountApiService } from '../services/account/account-api.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notifcation.service';
+
+function calculateAge(birthDate: Date) {
+  let currentDate = new Date();
+
+  let years = currentDate.getFullYear() - birthDate.getFullYear();
+
+  if (
+    currentDate.getMonth() < birthDate.getMonth() ||
+    (currentDate.getMonth() == birthDate.getMonth() &&
+      currentDate.getDate() < birthDate.getDate())
+  ) {
+    years--;
+  }
+
+  return years;
+}
 
 @Component({
   selector: 'app-register',
@@ -28,6 +49,27 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   initialColor: string = '';
 
+  minLengthValidator(length: number) {
+    return (control: AbstractControl) => {
+      const result = control.value.trim().length;
+      return result >= length ? null : { requiredLength: length };
+    };
+  }
+
+  getErrorMessage(control: AbstractControl) {
+    if (control.dirty && control.errors) {
+      if (control.errors.required) return 'This field is required';
+
+      if (control.errors.requiredLength)
+        return (
+          'Minimum length of this should be : ' + control.errors.requiredLength
+        );
+
+      if (control.errors.invalidAge) return 'Minimum age should be 18';
+    }
+    return '';
+  }
+
   constructor(
     private accountApiService: AccountApiService,
     private elementRef: ElementRef,
@@ -37,16 +79,28 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.model = new FormGroup({
       username: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
+        this.minLengthValidator(3),
       ]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        this.minLengthValidator(3),
+      ]),
       firstName: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
+        this.minLengthValidator(3),
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
+        this.minLengthValidator(3),
+      ]),
+      gender: new FormControl('', [
+        Validators.required,
+        this.minLengthValidator(1),
+      ]),
+      dateOfBirth: new FormControl('', [
+        Validators.required,
+        (c: AbstractControl) =>
+          calculateAge(new Date(c.value)) < 18 ? { invalidAge: true } : null,
       ]),
     });
   }
@@ -56,7 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.accountApiService.register(this.model.value).subscribe(
       (res$) => {
         res$.subscribe(() => {
-          this.router.navigate(['/members']);
+          this.router.navigate(['/find-matches']);
         });
       },
       (error) => {

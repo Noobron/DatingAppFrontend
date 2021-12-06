@@ -1,63 +1,110 @@
 <div class="col-md-6 mx-auto content bg-white">
-  <div class="register d-flex align-items-center">
+  <div style="user-select: none" class="register align-items-center">
     <div class="container">
       <div class="row">
         <div class="col-lg-10 col-xl-7 mx-auto">
           <div [align]="'center'" class="logo">T E N A S</div>
-          <h3 class="account display-6">New Account</h3>
+          <h3
+            [align]="'center'"
+            style="margin-bottom: 12%; white-space: nowrap"
+            class="display-6"
+          >
+            Account Creation
+          </h3>
 
           <form [formGroup]="model" autocomplete="off" (ngSubmit)="register()">
-            <div class="form-group mb-3">
-              <input
-                formControlName="username"
-                type="text"
-                placeholder="Username"
-                required=""
-                autofocus=""
-                class="form-control rounded-pill border-0 shadow-sm px-4"
-              />
-            </div>
+            <span class="error-message">
+              {{ getErrorMessage(model.controls["firstName"]) }}
+            </span>
+            <input
+              type="text"
+              placeholder="First Name"
+              formControlName="firstName"
+              required=""
+              autofocus=""
+              class="form-control rounded-pill shadow-sm px-4"
+              [ngClass]="
+                getErrorMessage(model.controls['firstName'])
+                  ? 'error-field'
+                  : ''
+              "
+            />
 
-            <div class="form-group mb-3">
-              <input
-                type="text"
-                placeholder="First Name"
-                formControlName="first_name"
-                required=""
-                autofocus=""
-                class="form-control rounded-pill border-0 shadow-sm px-4"
-              />
-            </div>
+            <span class="error-message">
+              {{ getErrorMessage(model.controls["lastName"]) }}
+            </span>
+            <input
+              type="text"
+              placeholder="Last Name"
+              formControlName="lastName"
+              required=""
+              autofocus=""
+              class="form-control rounded-pill shadow-sm px-4"
+              [ngClass]="
+                getErrorMessage(model.controls['lastName']) ? 'error-field' : ''
+              "
+            />
 
-            <div class="form-group mb-3">
-              <input
-                type="text"
-                placeholder="Last Name"
-                formControlName="last_name"
-                required=""
-                autofocus=""
-                class="form-control rounded-pill border-0 shadow-sm px-4"
-              />
-            </div>
+            <span class="error-message">
+              {{ getErrorMessage(model.controls["username"]) }}
+            </span>
+            <input
+              formControlName="username"
+              type="text"
+              placeholder="Username"
+              required=""
+              autofocus=""
+              class="form-control rounded-pill shadow-sm px-4"
+              [ngClass]="
+                getErrorMessage(model.controls['username']) ? 'error-field' : ''
+              "
+            />
 
-            <div class="form-group mb-3">
-              <input
-                formControlName="password"
-                type="password"
-                placeholder="Password"
-                required=""
-                class="
-                  form-control
-                  rounded-pill
-                  border-0
-                  shadow-sm
-                  px-4
-                  text-primary
-                "
-              />
-            </div>
+            <span class="error-message">
+              {{ getErrorMessage(model.controls["password"]) }}
+            </span>
+            <input
+              formControlName="password"
+              type="password"
+              placeholder="Password"
+              required=""
+              class="form-control rounded-pill shadow-sm px-4 text-primary"
+              [ngClass]="
+                getErrorMessage(model.controls['password']) ? 'error-field' : ''
+              "
+            />
+
+            <span class="error-message">
+              {{ getErrorMessage(model.controls["dateOfBirth"]) }}
+            </span>
+            <input
+              formControlName="dateOfBirth"
+              type="date"
+              required=""
+              class="form-control rounded-pill shadow-sm px-4 text-primary"
+              [ngClass]="
+                getErrorMessage(model.controls['dateOfBirth'])
+                  ? 'error-field'
+                  : ''
+              "
+            />
+
+            <span class="error-message">
+              {{ getErrorMessage(model.controls["gender"]) }}
+            </span>
+            <input
+              formControlName="gender"
+              type="gender"
+              placeholder="Gender"
+              required=""
+              class="form-control rounded-pill shadow-sm px-4 text-primary"
+              [ngClass]="
+                getErrorMessage(model.controls['gender']) ? 'error-field' : ''
+              "
+            />
 
             <button
+              *ngIf="model.valid"
               type="submit"
               class="btn btn-primary btn-block mb-2 rounded-pill shadow-sm"
             >

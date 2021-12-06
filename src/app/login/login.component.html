@@ -1,41 +1,53 @@
 <div class="col-md-6 mx-auto content bg-white">
-  <div class="login d-flex align-items-center">
+  <div style="user-select: none" class="login d-flex align-items-center">
     <div class="container">
       <div class="row">
         <div class="col-lg-10 col-xl-7 mx-auto">
-        <div [align]="'center'" class=" logo">T E N A S</div>
-          <h3 class="display-6 account">Account Login</h3>
+          <div [align]="'center'" class="logo">T E N A S</div>
+          <h3 [align]="'center'" style="margin-bottom: 12%" class="display-6">
+            Account Login
+          </h3>
 
           <form [formGroup]="model" (ngSubmit)="onSubmit()">
             <div class="form-group mb-3">
+              <span class="error-message">
+                {{ getErrorMessage(model.controls["username"]) }}
+              </span>
               <input
                 formControlName="username"
                 type="text"
                 placeholder="Username"
                 required=""
                 autofocus=""
-                class="form-control rounded-pill border-0 shadow-sm px-4"
+                class="form-control rounded-pill shadow-sm px-4"
+                [ngClass]="
+                  getErrorMessage(model.controls['username'])
+                    ? 'error-field'
+                    : ''
+                "
               />
             </div>
 
             <div class="form-group mb-3">
+              <span class="error-message">
+                {{ getErrorMessage(model.controls["password"]) }}
+              </span>
               <input
                 formControlName="password"
                 type="password"
                 placeholder="Password"
                 required=""
-                class="
-                  form-control
-                  rounded-pill
-                  border-0
-                  shadow-sm
-                  px-4
-                  text-primary
+                class="form-control rounded-pill shadow-sm px-4 text-primary"
+                [ngClass]="
+                  getErrorMessage(model.controls['password'])
+                    ? 'error-field'
+                    : ''
                 "
               />
             </div>
 
             <button
+              *ngIf="model.valid"
               type="submit"
               class="btn btn-primary btn-block mb-2 rounded-pill shadow-sm"
             >

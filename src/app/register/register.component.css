@@ -6,7 +6,17 @@
 
 .form-control,
 .btn {
-  margin: 12% 0;
+  margin: 10% 0;
+}
+
+.error-field {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  float: left;
+  margin-left: 3%;
 }
 
 .login {
@@ -22,10 +32,6 @@
   -webkit-text-stroke: 1px #6200ff;
   margin-bottom: 15%;
   margin-top: 30%;
-}
-
-.account {
-  margin-left: 10%;
 }
 
 .content {
