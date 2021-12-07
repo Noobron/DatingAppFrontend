@@ -26,6 +26,7 @@ import { AccountManagerService } from '../services/account/account-manager.servi
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   private refreshUrl: string = environment.API_URL + API_Paths.loginRefresh;
+  private logoutUrl: string = environment.API_URL + API_Paths.logout;
 
   constructor(
     private tokenService: TokenService,
@@ -43,6 +44,13 @@ export class AuthInterceptor implements HttpInterceptor {
       },
       withCredentials: true,
     });
+  }
+
+  private logout() {
+    this.http.get(this.logoutUrl).subscribe();
+    this.tokenService.removeAccessToken();
+    this.tokenService.setRefreshTokenInvalid();
+    this.accountManagerService.removeCurrentAccount();
   }
 
   // Observer for refershing account; This is re-impleneted apart from `AccountService`
@@ -97,15 +105,13 @@ export class AuthInterceptor implements HttpInterceptor {
               this.tokenService.getAccessToken()
             );
           else {
-            this.tokenService.setRefreshTokenInvalid();
+            this.logout();
           }
           return next.handle(request);
         })
       );
     } else {
-      this.tokenService.removeAccessToken();
-      this.tokenService.setRefreshTokenInvalid();
-      this.accountManagerService.removeCurrentAccount();
+      this.logout();
       return throwError(error);
     }
   }

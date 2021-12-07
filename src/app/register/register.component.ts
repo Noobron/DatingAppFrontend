@@ -66,8 +66,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
         );
 
       if (control.errors.invalidAge) return 'Minimum age should be 18';
+
+      if (control.errors.invalidData) return 'Please enter valid data';
     }
     return '';
+  }
+
+  genderValidator(control: AbstractControl) {
+    for (let gender of ['male', 'female'])
+      if (gender === control.value.trim().toLowerCase()) return null;
+
+    return { invalidData: true };
   }
 
   constructor(
@@ -96,6 +105,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       gender: new FormControl('', [
         Validators.required,
         this.minLengthValidator(1),
+        this.genderValidator,
       ]),
       dateOfBirth: new FormControl('', [
         Validators.required,
@@ -107,6 +117,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   // Sends a HTTP POST request to backend to register a new User
   register() {
+    this.model.controls['gender'].setValue(
+      this.model.controls['gender'].value.trim().toLowerCase()
+    );
+
+    console.log(this.model.value);
     this.accountApiService.register(this.model.value).subscribe(
       (res$) => {
         res$.subscribe(() => {
@@ -114,8 +129,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
         });
       },
       (error) => {
-        if (error.error)
-          this.notify.notifyError('Error in registration', error.error.detail);
+        this.notify.notifyError(
+          'Error in registration',
+          'Please enter all the fields properly'
+        );
       }
     );
   }

@@ -23,10 +23,9 @@
               required=""
               autofocus=""
               class="form-control rounded-pill shadow-sm px-4"
-              [ngClass]="
-                getErrorMessage(model.controls['firstName'])
-                  ? 'error-field'
-                  : ''
+              [class.is-invalid]="
+                model.controls['firstName'].errors &&
+                model.controls['firstName'].dirty
               "
             />
 
@@ -40,8 +39,9 @@
               required=""
               autofocus=""
               class="form-control rounded-pill shadow-sm px-4"
-              [ngClass]="
-                getErrorMessage(model.controls['lastName']) ? 'error-field' : ''
+              [class.is-invalid]="
+                model.controls['lastName'].errors &&
+                model.controls['lastName'].dirty
               "
             />
 
@@ -55,8 +55,9 @@
               required=""
               autofocus=""
               class="form-control rounded-pill shadow-sm px-4"
-              [ngClass]="
-                getErrorMessage(model.controls['username']) ? 'error-field' : ''
+              [class.is-invalid]="
+                model.controls['username'].errors &&
+                model.controls['username'].dirty
               "
             />
 
@@ -69,8 +70,9 @@
               placeholder="Password"
               required=""
               class="form-control rounded-pill shadow-sm px-4 text-primary"
-              [ngClass]="
-                getErrorMessage(model.controls['password']) ? 'error-field' : ''
+              [class.is-invalid]="
+                model.controls['password'].errors &&
+                model.controls['password'].dirty
               "
             />
 
@@ -81,27 +83,31 @@
               formControlName="dateOfBirth"
               type="date"
               required=""
-              class="form-control rounded-pill shadow-sm px-4 text-primary"
-              [ngClass]="
-                getErrorMessage(model.controls['dateOfBirth'])
-                  ? 'error-field'
-                  : ''
+              class="form-control rounded-pill shadow-sm px-4"
+              [class.is-invalid]="
+                model.controls['dateOfBirth'].errors &&
+                model.controls['dateOfBirth'].dirty
               "
+              [class.text-primary]="model.controls['dateOfBirth'].valid"
             />
 
             <span class="error-message">
               {{ getErrorMessage(model.controls["gender"]) }}
             </span>
-            <input
+            <select
               formControlName="gender"
-              type="gender"
-              placeholder="Gender"
               required=""
-              class="form-control rounded-pill shadow-sm px-4 text-primary"
-              [ngClass]="
-                getErrorMessage(model.controls['gender']) ? 'error-field' : ''
+              class="form-control rounded-pill shadow-sm px-4"
+              [class.is-invalid]="
+                model.controls['gender'].errors &&
+                model.controls['gender'].dirty
               "
-            />
+              [class.text-primary]="model.controls['gender'].valid"
+            >
+              <option disabled hidden selected value="">Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
 
             <button
               *ngIf="model.valid"

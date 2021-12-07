@@ -14,10 +14,6 @@
   margin-top: 10%;
 }
 
-.error-field {
-  border-color: red;
-}
-
 .error-message {
   color: red;
   float: left;
