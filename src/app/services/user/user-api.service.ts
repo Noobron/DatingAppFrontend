@@ -1,8 +1,10 @@
 // Import Angular packages
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
+
+// Import Models
+import { UserParams } from 'src/app/models/userParams';
 import { Photo } from 'src/app/models/photo';
 
 // Import other dependencies
@@ -21,12 +23,28 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   // Get users in a (default) batch of 8
-  getUsers(offset = 0, limit = 8) {
+  getUsers(offset = 0, limit = 8, userParams: UserParams | null = null) {
+    let params: any = {
+      limit: limit,
+      offset: offset,
+    };
+
+    if (userParams) {
+      params = {
+        ...params,
+        'min-age': userParams.minAge,
+        'max-age': userParams.maxAge,
+      };
+
+      if (userParams.gender !== '')
+        params = {
+          ...params,
+          gender: userParams.gender,
+        };
+    }
+
     return this.http.get<User[]>(this.baseurl + API_Paths.users, {
-      params: {
-        limit: limit,
-        offset: offset,
-      },
+      params: params,
     });
   }
 

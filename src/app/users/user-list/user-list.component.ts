@@ -1,13 +1,18 @@
 // Import Angular packages
-import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 // Import Services
 import { UserService } from 'src/app/services/user/user-api.service';
+import { AccountManagerService } from 'src/app/services/account/account-manager.service';
 
 // Import Components
-import { User } from 'src/app/models/user';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+
+// Import Models
+import { UserParams } from 'src/app/models/userParams';
+import { User } from 'src/app/models/user';
 import { AccountApiService } from 'src/app/services/account/account-api.service';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-list',
@@ -25,6 +30,16 @@ export class UserListComponent implements OnInit {
   // number of Users which are going to be viewed
   viewUserCount = 3;
 
+  defaultMinimumAge = 18;
+  defaultMaximumAge = 99;
+  defaultGender = '';
+
+  filterOptions = new UserParams(
+    this.defaultMinimumAge,
+    this.defaultMaximumAge,
+    this.defaultGender
+  );
+
   userList: (User | null)[] = [];
 
   slideConfig = {
@@ -38,19 +53,72 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private accountApiService: AccountApiService
+    private accountManagerService: AccountManagerService,
+    private accountApiSerice: AccountApiService
   ) {
-    this.accountApiService.authenticate$.subscribe(() => {
-      this.getNextUserBatch();
+    this.accountApiSerice.authenticate$.subscribe(() => {
+      this.accountManagerService.currentAccount$.subscribe((acc) => {
+        if (acc)
+          this.userService.getUser(acc.username).subscribe((res) => {
+            this.defaultGender =
+              res.gender === 'male'
+                ? 'female'
+                : res.gender === 'female'
+                ? 'male'
+                : '';
+            this.filterOptions.gender = this.defaultGender;
+            this.getNextUserBatch(true);
+          });
+        else this.getNextUserBatch();
+      });
     });
   }
 
   ngOnInit(): void {}
 
+  // apply new filters on demand
+  applyFilters() {
+    if (this.filterOptions.minAge < this.defaultMinimumAge)
+      this.filterOptions.minAge = this.defaultMinimumAge;
+
+    if (this.filterOptions.maxAge > this.defaultMaximumAge)
+      this.filterOptions.maxAge = this.defaultMaximumAge;
+
+    this.getNextUserBatch(true, true);
+  }
+
+  // reset filter options
+  resetFilters() {
+    if (
+      this.filterOptions.maxAge !== this.defaultMaximumAge ||
+      this.filterOptions.minAge !== this.defaultMinimumAge ||
+      this.filterOptions.gender !== this.defaultGender
+    ) {
+      this.filterOptions = new UserParams(
+        this.defaultMinimumAge,
+        this.defaultMaximumAge,
+        this.defaultGender
+      );
+
+      this.getNextUserBatch(true, true);
+    }
+  }
+
   // retrieve next batch of users from database using API
-  getNextUserBatch() {
+  getNextUserBatch(applyfilters: boolean = false, resetData: boolean = false) {
+    if (resetData) {
+      this.offest = 0;
+      this.currentPosition = 0;
+      this.userList = [];
+      this.slickModal.slides = [];
+    }
+    
     this.userService
-      .getUsers(this.offest, this.batchSize)
+      .getUsers(
+        this.offest,
+        this.batchSize,
+        applyfilters ? this.filterOptions : null
+      )
       .subscribe((response) => {
         if (response !== []) this.userList.push(...response);
         this.offest += this.batchSize;
@@ -85,6 +153,6 @@ export class UserListComponent implements OnInit {
     this.slickModal.slickGoTo(this.currentPosition);
 
     if (this.currentPosition + this.viewUserCount >= this.offest)
-      this.getNextUserBatch();
+      this.getNextUserBatch(true);
   }
 }

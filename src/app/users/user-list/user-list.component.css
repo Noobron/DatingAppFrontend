@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=MuseoModerno:wght@600&family=Rubik:wght@600&display=swap");
+
 div svg {
   height: 70px;
   cursor: pointer;
@@ -44,4 +46,31 @@ div svg:hover .arrow-fixed {
   100% {
     opacity: 1;
   }
+}
+
+.filter-button {
+  margin-top: 10%;
+  min-width: 130px;
+  min-height: 40px;
+}
+
+.filter {
+  margin-bottom: 4%;
+  margin-top: -7%;
+  margin-left: 6%;
+}
+
+.form-control {
+  border-color: #6200ff;
+}
+
+.filter-text {
+  font-family: "Rubik", sans-serif;
+  margin-bottom: 1%;
+  font-size: small;
+}
+
+.no-matches {
+  font-weight: bolder;
+  font-size: 24px;
 }

@@ -1,5 +1,78 @@
 <div style="margin-top: 20%" class="container">
-  <div class="row">
+  <div class="filter row">
+    <div class="col-4">
+      <div [align]="'center'" class="row">
+        <div class="col-6">
+          <p class="filter-text">MINIMUM AGE :</p>
+          <input
+            [(ngModel)]="filterOptions.minAge"
+            (change)="
+              filterOptions.minAge =
+                filterOptions.minAge < defaultMinimumAge
+                  ? defaultMinimumAge
+                  : filterOptions.minAge
+            "
+            class="age shadow form-control"
+            #minAge="ngModel"
+            min="{{ defaultMinimumAge }}"
+            type="number"
+          />
+        </div>
+
+        <div class="col-6">
+          <p class="filter-text">MAXIMUM AGE :</p>
+          <input
+            class="age shadow form-control"
+            [(ngModel)]="filterOptions.maxAge"
+            (change)="
+              filterOptions.maxAge =
+                filterOptions.maxAge > defaultMaximumAge
+                  ? defaultMaximumAge
+                  : filterOptions.maxAge
+            "
+            #maxAge="ngModel"
+            max="{{ defaultMaximumAge }}"
+            type="number"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div [align]="'center'" class="col-2">
+      <p class="filter-text">GENDER :</p>
+      <select class="shadow form-control" [(ngModel)]="filterOptions.gender">
+        <option disabled hidden selected></option>
+        <option [ngValue]="'male'">Male</option>
+        <option [ngValue]="'female'">Female</option>
+      </select>
+    </div>
+
+    <div class="col-1"></div>
+
+    <div [align]="'center'" class="col-2">
+      <button
+        class="btn btn-floating shadow btn-outline-primary filter-button"
+        title="Apply Filters"
+        (click)="applyFilters()"
+        type="button"
+      >
+        APPLY FILTERS
+      </button>
+    </div>
+
+    <div [align]="'center'" class="col-2">
+      <button
+        class="btn btn-floating shadow btn-outline-success filter-button"
+        title="Reset Filters"
+        (click)="resetFilters()"
+        type="button"
+      >
+        RESET FILTERS
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="userList.length; else NoMatches" class="row">
     <svg
       *ngIf="currentPosition >= viewUserCount"
       class="col"
@@ -54,4 +127,15 @@
       </g>
     </svg>
   </div>
+
+  <ng-template #NoMatches>
+    <div style="margin-top: 12%" [align]="'center'">
+      <img
+        width="10%"
+        title="No Matches Found"
+        src="../../../assets/no-matches-found-icon.png"
+      />
+      <p class="no-matches">No Matches Found..</p>
+    </div>
+  </ng-template>
 </div>
