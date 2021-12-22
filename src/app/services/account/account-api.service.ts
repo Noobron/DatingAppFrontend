@@ -83,12 +83,12 @@ export class AccountApiService {
         };
 
         if (account) {
-          this.accountManagerService.setCurrentAccount(account);
           this.tokenService.setRefreshTokenValid();
           this.tokenService.setAccessToken(
             response.access,
             new Date(parseInt(access_token.exp) * 1000)
           );
+          this.accountManagerService.setCurrentAccount(account);
         }
       })
     );

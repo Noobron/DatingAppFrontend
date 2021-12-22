@@ -114,7 +114,7 @@
                   </h6>
                 </li>
                 <li
-                  title="Last Active"
+                  title="Status"
                   class="
                     list-group-item
                     d-flex
@@ -123,11 +123,11 @@
                     p-3
                   "
                 >
-                  <img
-                    width="10%"
-                    src="../.../../../../assets/last-seen-icon.png"
-                  />
-                  <h6>{{ user.lastActive | timeAgo }}</h6>
+                  <div></div>
+                  <div style="pointer-events: none" class="btn btn-success">
+                    ONLINE
+                  </div>
+                  <div></div>
                 </li>
               </ul>
             </div>

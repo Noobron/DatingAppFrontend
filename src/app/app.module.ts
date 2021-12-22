@@ -1,5 +1,5 @@
 // Import Angular packages
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -33,6 +33,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 // Import Pipes
 import { TimeAgo } from './pipes/time-ago.pipe';
+import { AccountStatusService } from './services/account/account-status.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,14 @@ import { TimeAgo } from './pipes/time-ago.pipe';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    [
+      {
+        provide: APP_INITIALIZER,
+        multi: true,
+        deps: [AccountStatusService],
+        useFactory: (accountStatusService: AccountStatusService) => () => null,
+      },
+    ],
   ],
   bootstrap: [AppComponent],
 })

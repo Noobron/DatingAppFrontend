@@ -78,22 +78,37 @@
                   {{ "Not Dsiclosed" }}
                 </h6>
               </li>
-              <li
-                title="Last Active"
-                class="
-                  list-group-item
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  p-3
-                "
-              >
-                <img
-                  width="10%"
-                  src="../.../../../../assets/last-seen-icon.png"
-                />
-                <h6>{{ user.lastActive | timeAgo }}</h6>
+
+              <li title="Status" class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                  " *ngIf="userStatus === 'online'; else LastActive">
+                <div></div>
+                <div style="pointer-events: none" class="btn btn-success">ONLINE</div>
+                <div></div>
+
               </li>
+              <ng-template #LastActive>
+                <li
+                  title="Last Active"
+                  class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                  "
+                >
+                  <img
+                    width="10%"
+                    src="../.../../../../assets/last-seen-icon.png"
+                  />
+                  <h6>{{ user.lastActive | timeAgo }}</h6>
+                </li>
+              </ng-template>
             </ul>
           </div>
         </div>
