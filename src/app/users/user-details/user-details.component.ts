@@ -1,6 +1,6 @@
 // Import Angular packages
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 // Import Models
 import { User } from 'src/app/models/user';
@@ -31,7 +31,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public selectedIndex = 0;
 
-  webSocket: WebSocketSubject<any> | null = null;
+  webSocket$: WebSocketSubject<any> | null = null;
 
   userStatus: string | null = null;
 
@@ -48,22 +48,24 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   galleryImages: NgxGalleryImage[] = [];
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private route: ActivatedRoute,
     private accountStatusService: AccountStatusService
   ) {
-    let ussername = this.route.snapshot.paramMap.get('username')!;
+    let username = this.route.snapshot.paramMap.get('username')!;
 
-    this.userService.getUser(ussername).subscribe((response) => {
+    this.userService.getUser(username).subscribe((response) => {
       this.user = response;
 
-      this.webSocket =
-        this.accountStatusService.getAccountStatusSocket(ussername);
+      this.webSocket$ =
+        this.accountStatusService.getAccountStatusSocket(username);
 
-      this.webSocket.subscribe((msg) => {
-        if ((msg.type = 'time' && msg.last_active != undefined))
+      this.webSocket$.subscribe((msg) => {
+        if (msg.type === 'time' && msg.last_active !== undefined) {
           this.user!.lastActive = new Date(msg.last_active);
-        else this.userStatus = msg.status;
+          this.userStatus = null;
+        } else this.userStatus = msg.status;
       });
 
       this.userService
@@ -92,11 +94,24 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.selectedIndex = this.PHOTOS;
   }
 
+  chatToUser() {
+    let objToSend: NavigationExtras = {
+      queryParams: {
+        user: this.user,
+      },
+      skipLocationChange: false,
+      fragment: 'top',
+    };
+
+    this.router.navigate(['/chat'], {
+      state: { userToChat: objToSend },
+    });
+  }
+
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.webSocket?.complete();
-    this.webSocket?.unsubscribe();
-    this.webSocket = null;
+    this.webSocket$?.complete();
+    this.webSocket$ = null;
   }
 }

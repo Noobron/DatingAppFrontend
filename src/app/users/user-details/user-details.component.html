@@ -3,7 +3,7 @@
     <div class="row text">
       <div class="col-lg-5">
         <div class="card mb-4">
-          <div *ngIf="user != null" class="card-body text-center">
+          <div *ngIf="user !== null" class="card-body text-center">
             <div
               class="thumbnail"
               [style.background-image]="'url(' + user.mainPhoto + ')'"
@@ -21,7 +21,11 @@
             </p>
             <div class="d-flex justify-content-center mb-2">
               <button type="button" class="btn like">Like</button>
-              <button type="button" class="btn btn-outline-primary ms-1">
+              <button
+                (click)="chatToUser()"
+                type="button"
+                class="btn btn-outline-primary ms-1"
+              >
                 Message
               </button>
             </div>
@@ -31,7 +35,7 @@
         <div class="card mb-4 mb-lg-0">
           <div class="card-body p-0">
             <ul
-              *ngIf="user != null"
+              *ngIf="user !== null"
               class="list-group list-group-flush rounded-3"
             >
               <li
@@ -74,22 +78,27 @@
               >
                 <img width="11%" src="../../../assets/date-of-birth-icon.png" />
                 <h6>{{ user.dateOfBirth | date }}</h6>
-                <h6 *ngIf="user.dateOfBirth == null">
+                <h6 *ngIf="user.dateOfBirth === null">
                   {{ "Not Dsiclosed" }}
                 </h6>
               </li>
 
-              <li title="Status" class="
-                    list-group-item
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                    p-3
-                  " *ngIf="userStatus === 'online'; else LastActive">
+              <li
+                title="Status"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  p-3
+                "
+                *ngIf="userStatus === 'online'; else LastActive"
+              >
                 <div></div>
-                <div style="pointer-events: none" class="btn btn-success">ONLINE</div>
+                <div style="pointer-events: none" class="btn btn-success">
+                  ONLINE
+                </div>
                 <div></div>
-
               </li>
               <ng-template #LastActive>
                 <li
@@ -114,7 +123,7 @@
         </div>
       </div>
 
-      <div *ngIf="user != null" class="col-lg-7">
+      <div *ngIf="user !== null" class="col-lg-7">
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a
@@ -158,7 +167,7 @@
 
             <ng-container
               *ngIf="
-                user.lookingFor == undefined && user.introduction == undefined
+                user.lookingFor === undefined && user.introduction === undefined
               "
             >
               <img
@@ -180,7 +189,7 @@
               {{ user.interests }}
             </ng-container>
 
-            <ng-container *ngIf="user.interests == undefined">
+            <ng-container *ngIf="user.interests === undefined">
               <img
                 width="50%"
                 style="margin-left: 23%; margin-top: 20%"

@@ -1,0 +1,48 @@
+<div style="user-select: none" class="p-2 mb-2">
+  <div class="row mb-2">
+    <img
+      [src]="otherUser?.mainPhoto"
+      alt="user"
+      height="75"
+      class="rounded-circle media col-2"
+    />
+    <div class="col-1 p-0 align-items-center">
+      <h5 class="mt-4 ml-0">{{ otherUser?.username }}</h5>
+    </div>
+    <div class="col-1 mt-4 online-status" *ngIf="otherUserStatus === 'online'">
+      <i class="fa fa-circle"></i>
+    </div>
+  </div>
+
+  <hr class="mb-0 mt-0" />
+</div>
+
+<div #ChatBox class="px-4 chat-box bg-white">
+  <ng-container *ngFor="let chatMessage of chatMessages; let i = index">
+    <app-message
+      #ChatMessage
+      [chatMessage]="chatMessage"
+      [isOtherUser]="chatMessage.sender === otherUser?.username"
+      [isLastSeenMessage]="
+        lastSeenMessageRelativeIndex === chatMessages.length - i - 1
+      "
+    ></app-message>
+  </ng-container>
+</div>
+
+<form [formGroup]="model" (ngSubmit)="sendTextMessage()" class="bg-light my-3">
+  <div class="input-group">
+    <input
+      formControlName="text"
+      type="text"
+      placeholder="Type a message"
+      aria-describedby="button-addon2"
+      class="form-control rounded-0 border-0 py-4 bg-light"
+    />
+    <div *ngIf="!model.invalid" class="input-group-append">
+      <button type="submit" class="btn">
+        <i class="fa fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</form>

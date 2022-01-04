@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="row rounded-lg overflow-hidden shadow">
+    <div class="col-5 px-0">
+      <div class="bg-white">
+        <div class="chat-top-panel">
+          <p class="h5 mb-0 py-2">Your Chats</p>
+        </div>
+
+        <div class="messages-box">
+          <ng-container *ngIf="chatFeed.length; else NoChats">
+            <div class="list-group">
+              <div
+                *ngFor="let chatRoom of chatFeed; let i = index"
+                class="list-group-item list-group-item-action text-white"
+                [ngClass]="
+                  selectedChatIndex !== null && selectedChatIndex === i
+                    ? 'active'
+                    : ''
+                "
+                (click)="selectChat(i)"
+              >
+                <div class="media">
+                  <img
+                    [src]="
+                      chatRoom.firstUser.username === currentAccount?.username
+                        ? chatRoom.secondUser.mainPhoto
+                        : chatRoom.firstUser.mainPhoto
+                    "
+                    alt="user"
+                    width="50"
+                    class="rounded-circle"
+                  />
+                  <div class="media-body ml-4">
+                    <div
+                      class="d-flex align-items-center justify-content-between mb-1"
+                    >
+                      <h6 class="mb-0">
+                        {{
+                          chatRoom.firstUser.username ===
+                          currentAccount?.username
+                            ? chatRoom.secondUser.username
+                            : chatRoom.firstUser.username
+                        }}
+                      </h6>
+                      <small
+                        [ngClass]="
+                          selectedChatIndex !== null && selectedChatIndex === i
+                            ? ''
+                            : 'text-dark'
+                        "
+                        class="small font-weight-bold"
+                        >{{
+                          chatRoom.lastChatMessage?.createdAt | date: "short"
+                        }}</small
+                      >
+                    </div>
+                    <p
+                      [ngClass]="
+                        selectedChatIndex !== null && selectedChatIndex === i
+                          ? 'text-light'
+                          : chatRoom.lastChatMessage?.sender !==
+                              currentAccount?.username &&
+                            chatRoom.lastChatMessage?.seen === false
+                          ? 'font-weight-bold text-dark'
+                          : 'text-secondary'
+                      "
+                      class="mb-0 mt-2 text-small"
+                    >
+                      {{
+                        chatRoom.lastChatMessage?.sender ===
+                        currentAccount?.username
+                          ? chatRoom.lastChatMessage?.seen === false
+                            ? "✱ "
+                            : "👁️‍🗨️"
+                          : ""
+                      }}
+                      {{ chatRoom.lastChatMessage?.content }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #NoChats>
+            <div class="no-chats">
+              <img
+                src="../../assets/empty-chat-icon.png"
+                width="50%"
+                alt="Empty Chat"
+              />
+              <h4>Message people to view chats in this tab</h4>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+      <app-chat-box
+        *ngIf="selectedChatIndex !== null && specificUser === null"
+        [otherUserInput]="
+          chatFeed[selectedChatIndex].firstUser.username ===
+          currentAccount?.username
+            ? chatFeed[selectedChatIndex].secondUser
+            : chatFeed[selectedChatIndex].firstUser
+        "
+        [currentUserInput]="
+          chatFeed[selectedChatIndex].firstUser.username ===
+          currentAccount?.username
+            ? chatFeed[selectedChatIndex].firstUser
+            : chatFeed[selectedChatIndex].secondUser
+        "
+      ></app-chat-box>
+
+      <app-chat-box
+        *ngIf="selectedChatIndex === null && specificUser !== null"
+        [otherUserInput]="specificUser!"
+        [currentUserInput]="currentUser!"
+      ></app-chat-box>
+
+      <div
+        *ngIf="selectedChatIndex === null && specificUser === null"
+        class="chat-not-selected"
+      >
+      <h4>Select a person to start chatting</h4>
+        <img width="50%" src="../../assets/chat-not-selected-icon.png" alt="Chat Not Slected">
+      </div>
+    </div>
+  </div>
+</div>

@@ -37,6 +37,8 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.accountApiService.logout();
-    this.router.navigateByUrl('/');
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });;
   }
 }

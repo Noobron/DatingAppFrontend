@@ -8,7 +8,7 @@ import { ListsComponent } from './lists/lists.component';
 import { LoginComponent } from './login/login.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UserListComponent } from './users/user-list/user-list.component';
-import { MessagesComponent } from './messages/messages.component';
+import { ChatComponent } from './chat/chat.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RegisterComponent } from './register/register.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
@@ -32,7 +32,8 @@ const routes: Routes = [
         canDeactivate: [PreventUnsavedChangesGuard],
       },
       { path: 'lists', component: ListsComponent },
-      { path: 'messages', component: MessagesComponent },
+      { path: 'chat', component: ChatComponent },
+      { path: 'chat/:username', component: ChatComponent },
     ],
   },
   { path: 'find-matches', component: UserListComponent },

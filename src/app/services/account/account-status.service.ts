@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { WEBSOCKET_Paths } from 'src/app/websocket/websocket_paths';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { Subscription } from 'rxjs';
 
 // Import Services
 import { AccountManagerService } from './account-manager.service';
@@ -16,6 +17,7 @@ import { TokenService } from '../token.service';
 export class AccountStatusService {
   private baseurl: string = environment.WEBSOCKET_URL;
   private currentAccountStatusSocket: WebSocketSubject<any> | null = null;
+  private subscription: Subscription | null = null;
 
   constructor(
     private accountManagerService: AccountManagerService,
@@ -24,7 +26,7 @@ export class AccountStatusService {
     this.accountManagerService.currentAccount$.subscribe((account) => {
       if (this.currentAccountStatusSocket !== null) {
         this.currentAccountStatusSocket.complete();
-        this.currentAccountStatusSocket.unsubscribe();
+        this.subscription?.unsubscribe();
         this.currentAccountStatusSocket = null;
       }
 
@@ -37,7 +39,7 @@ export class AccountStatusService {
             this.tokenService.getAccessToken()!
         );
 
-        this.currentAccountStatusSocket.subscribe();
+        this.subscription = this.currentAccountStatusSocket.subscribe();
       }
     });
   }

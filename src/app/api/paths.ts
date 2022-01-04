@@ -9,4 +9,8 @@ export enum API_Paths {
   editProfile = 'accounts/edit-profile/',
   addPhoto = 'accounts/add-photo/',
   deletePhoto = 'accounts/delete-photo/',
+
+  chatFeed = 'chat/get-chat-feed/',
+  chatMessages = 'chat/get-chat-messages/',
+  markChatMessagesAsSeen = 'chat/mark-chat-message-as-seen/',
 }

@@ -16,7 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { UserCardComponent } from './users/user-card/user-card.component';
 import { ListsComponent } from './lists/lists.component';
-import { MessagesComponent } from './messages/messages.component';
+import { ChatComponent } from './chat/chat.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
 import { LoginComponent } from './login/login.component';
@@ -26,6 +26,8 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { PhotoEditorComponent } from './users/user-edit/photo-editor/photo-editor.component';
 import { ImageUploadComponent } from './users/user-edit/image-upload/image-upload.component';
 import { UpdateProfileModalComponent } from './users/user-edit/update-profile-modal/update-profile-modal.component';
+import { ChatBoxComponent } from './chat/chat-box/chat-box.component';
+import { MessageComponent } from './chat/chat-box/message/message.component';
 
 // Import Interceptors
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -44,7 +46,7 @@ import { AccountStatusService } from './services/account/account-status.service'
     UserListComponent,
     UserCardComponent,
     ListsComponent,
-    MessagesComponent,
+    ChatComponent,
     NotFoundComponent,
     ServerErrorComponent,
     LoginComponent,
@@ -54,6 +56,8 @@ import { AccountStatusService } from './services/account/account-status.service'
     PhotoEditorComponent,
     ImageUploadComponent,
     UpdateProfileModalComponent,
+    ChatBoxComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
