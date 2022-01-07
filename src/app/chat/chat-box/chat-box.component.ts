@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
@@ -86,7 +85,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
         recipient: this.otherUser!.username,
         messageType: 'text',
         createdAt: new Date().toISOString(),
-        content: this.model.controls['text'].value,
+        content: this.model.controls['text'].value.trim(),
 
         // seen will be updated by chat server
         seen: false,

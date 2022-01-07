@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user/user-api.service';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-messages',
   templateUrl: './chat.component.html',
@@ -40,8 +39,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   feedSocketSubscription: Subscription | null = null;
 
   preprocessChatFeedMessage(type: string, content: string) {
-    if (type == 'text')
-      return content.substring(0, 40) + (content.length > 40 ? '...' : '');
+    if (type === 'text')
+      return content.substring(0, 15) + (content.length > 15 ? '...' : '');
 
     return content;
   }

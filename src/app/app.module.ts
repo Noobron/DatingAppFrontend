@@ -15,7 +15,6 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { UserCardComponent } from './users/user-card/user-card.component';
-import { ListsComponent } from './lists/lists.component';
 import { ChatComponent } from './chat/chat.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ServerErrorComponent } from './server-error/server-error.component';
@@ -35,6 +34,8 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 // Import Pipes
 import { TimeAgo } from './pipes/time-ago.pipe';
+
+// Import services
 import { AccountStatusService } from './services/account/account-status.service';
 
 @NgModule({
@@ -45,7 +46,6 @@ import { AccountStatusService } from './services/account/account-status.service'
     RegisterComponent,
     UserListComponent,
     UserCardComponent,
-    ListsComponent,
     ChatComponent,
     NotFoundComponent,
     ServerErrorComponent,

@@ -1,16 +1,15 @@
 <div class="media w-50" [ngClass]="isOtherUser ? 'ml-3' : 'ml-auto'">
   <div class="media-body">
     <div
-      [ngClass]="isOtherUser ? 'bg-light' : 'bg-primary'"
+      [ngClass]="isOtherUser ? 'bg-light' : 'light-theme'"
       class="rounded py-2 px-3"
     >
-      <p
+      <span
         [ngClass]="isOtherUser ? 'text-muted' : 'text-white'"
         *ngIf="chatMessage.messageType === 'text'"
         class="text-small mb-0"
-      >
-        {{ processTextMessage(chatMessage.content) }}
-      </p>
+        [innerHTML]="processTextMessage(chatMessage.content)"
+      ></span>
     </div>
     <div *ngIf="isLastSeenMessage">👁️‍🗨️</div>
     <p class="small text-muted">
