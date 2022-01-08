@@ -14,9 +14,17 @@
     <li [routerLink]="['/users', user.username]" title="View Profile">
       <i style="color: blue" class="popout fa fa-user"></i>
     </li>
-    <li title="Like">
-      <i style="color: crimson" class="popout fa fa-heart"></i>
+
+    <li *ngIf="hasLiked === false; else Unlike" (click)="like()" title="Like">
+      <i  class="popout fa fa-heart-o"></i>
     </li>
+
+    <ng-template #Unlike>
+      <li (click)="unlike()" title="Unlike">
+        <i style="color: crimson" class="popout fa fa-heart"></i>
+      </li>
+    </ng-template>
+
     <li (click)="chatToUser()" title="Send Message">
       <i style="color: goldenrod" class="popout fa fa-envelope"></i>
     </li>

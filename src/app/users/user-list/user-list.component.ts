@@ -25,6 +25,8 @@ export class UserListComponent implements OnInit {
 
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
 
+  isLoggedIn = false;
+
   currentPosition = 0;
 
   // number of Users which are going to be viewed
@@ -58,7 +60,8 @@ export class UserListComponent implements OnInit {
   ) {
     this.accountApiSerice.authenticate$.subscribe(() => {
       this.accountManagerService.currentAccount$.subscribe((acc) => {
-        if (acc)
+        if (acc) {
+          this.isLoggedIn = true;
           this.userService.getUser(acc.username).subscribe((res) => {
             this.defaultGender =
               res.gender === 'male'
@@ -69,7 +72,10 @@ export class UserListComponent implements OnInit {
             this.filterOptions.gender = this.defaultGender;
             this.getNextUserBatch(true);
           });
-        else this.getNextUserBatch();
+        } else {
+          this.isLoggedIn = false;
+          this.getNextUserBatch();
+        }
       });
     });
   }
@@ -112,7 +118,7 @@ export class UserListComponent implements OnInit {
       this.userList = [];
       this.slickModal.slides = [];
     }
-    
+
     this.userService
       .getUsers(
         this.offest,

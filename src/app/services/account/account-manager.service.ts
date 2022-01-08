@@ -34,7 +34,9 @@ export class AccountManagerService {
 
   // remove current account
   removeCurrentAccount() {
-    if (this.currentAccount != null) this.currentAccountSource.next();
-    this.currentAccount = null;
+    if (this.currentAccount) {
+      this.currentAccount = null;
+      this.currentAccountSource.next();
+    }
   }
 }

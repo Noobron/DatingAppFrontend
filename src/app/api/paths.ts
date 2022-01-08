@@ -9,6 +9,9 @@ export enum API_Paths {
   editProfile = 'accounts/edit-profile/',
   addPhoto = 'accounts/add-photo/',
   deletePhoto = 'accounts/delete-photo/',
+  likeUser = 'accounts/like-user/',
+  unlikeUser = 'accounts/unlike-user/',
+  hasLiked = 'accounts/has-liked/',
 
   chatFeed = 'chat/get-chat-feed/',
   chatMessages = 'chat/get-chat-messages/',

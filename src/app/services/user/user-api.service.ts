@@ -87,4 +87,23 @@ export class UserService {
       body: { id: id },
     });
   }
+
+  // Like a user
+  likeUser(toBeLiked: string) {
+    return this.http.put(this.baseurl + API_Paths.likeUser, {
+      to_be_liked: toBeLiked,
+    });
+  }
+
+  // Unlike a user
+  unlikeUser(likedOn: string) {
+    return this.http.put(this.baseurl + API_Paths.unlikeUser, {
+      liked_on: likedOn,
+    });
+  }
+
+  // Check whether current user has liked a user
+  hasLiked(likedOn: string) {
+    return this.http.get(this.baseurl + API_Paths.hasLiked + likedOn);
+  }
 }

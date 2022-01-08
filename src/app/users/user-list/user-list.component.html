@@ -100,6 +100,7 @@
           <app-user-card
             *ngIf="user != null; else emptySlot"
             [user]="user"
+            [isLoggedIn]="isLoggedIn"
           ></app-user-card>
           <ng-template #emptySlot>
             <div></div>

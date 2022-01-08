@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user';
 // Import Services
 import { UserService } from 'src/app/services/user/user-api.service';
 import { AccountStatusService } from 'src/app/services/account/account-status.service';
+import { AccountManagerService } from 'src/app/services/account/account-manager.service';
 
 // Import other dependencies
 import {
@@ -35,6 +36,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   userStatus: string | null = null;
 
+  hasLiked = false;
+
+  isLoggedIn = false;
+
   galleryOptions: NgxGalleryOptions[] = [
     {
       width: '500px',
@@ -51,9 +56,19 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private userService: UserService,
     private route: ActivatedRoute,
-    private accountStatusService: AccountStatusService
+    private accountStatusService: AccountStatusService,
+    private accountManagerService: AccountManagerService
   ) {
     let username = this.route.snapshot.paramMap.get('username')!;
+
+    this.accountManagerService.currentAccount$.subscribe((acc) => {
+      if (acc) {
+        this.isLoggedIn = true;
+        this.userService.hasLiked(username).subscribe((response) => {
+          if (response) this.hasLiked = true;
+        });
+      } else this.isLoggedIn = false;
+    });
 
     this.userService.getUser(username).subscribe((response) => {
       this.user = response;
@@ -80,6 +95,22 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           });
         });
     });
+  }
+
+  like() {
+    if (this.isLoggedIn && this.user)
+      this.userService.likeUser(this.user.username).subscribe(() => {
+        this.hasLiked = true;
+      });
+    else this.router.navigate(['/login']);
+  }
+
+  unlike() {
+    if (this.isLoggedIn && this.user)
+      this.userService.unlikeUser(this.user.username).subscribe(() => {
+        this.hasLiked = false;
+      });
+    else this.router.navigate(['/login']);
   }
 
   selectAbout() {

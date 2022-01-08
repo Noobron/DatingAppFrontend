@@ -20,7 +20,20 @@
               }}
             </p>
             <div class="d-flex justify-content-center mb-2">
-              <button type="button" class="btn like">Like</button>
+              <button
+                *ngIf="hasLiked === false; else Unlike"
+                type="button"
+                class="btn like"
+                (click)="like()"
+              >
+                Like
+              </button>
+              <ng-template #Unlike>
+                <button (click)="unlike()" type="button" class="btn like">
+                  Unlike
+                </button>
+              </ng-template>
+
               <button
                 (click)="chatToUser()"
                 type="button"
@@ -40,26 +53,14 @@
             >
               <li
                 title="Gender"
-                class="
-                  list-group-item
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  p-3
-                "
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
               >
                 <img width="10%" src="../../../assets/gender-icon.png" />
                 <h6 class="mb-0">{{ user.gender | titlecase }}</h6>
               </li>
               <li
                 title="Age"
-                class="
-                  list-group-item
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  p-3
-                "
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
               >
                 <img width="10%" src="../../../assets/age-icon.png" />
                 <h6 class="mb-0">
@@ -68,13 +69,7 @@
               </li>
               <li
                 title="Date of Birth"
-                class="
-                  list-group-item
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  p-3
-                "
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
               >
                 <img width="11%" src="../../../assets/date-of-birth-icon.png" />
                 <h6>{{ user.dateOfBirth | date }}</h6>
@@ -85,13 +80,7 @@
 
               <li
                 title="Status"
-                class="
-                  list-group-item
-                  d-flex
-                  justify-content-between
-                  align-items-center
-                  p-3
-                "
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
                 *ngIf="userStatus === 'online'; else LastActive"
               >
                 <div></div>
@@ -103,13 +92,7 @@
               <ng-template #LastActive>
                 <li
                   title="Last Active"
-                  class="
-                    list-group-item
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                    p-3
-                  "
+                  class="list-group-item d-flex justify-content-between align-items-center p-3"
                 >
                   <img
                     width="10%"
