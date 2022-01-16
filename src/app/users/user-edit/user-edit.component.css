@@ -78,10 +78,8 @@ label {
 
 .icon {
   float: initial;
-width: 1%;
+  width: 1%;
   user-select: none;
   cursor: pointer;
   margin-left: 22%;
 }
-
-

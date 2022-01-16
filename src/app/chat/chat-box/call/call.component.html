@@ -1,0 +1,94 @@
+<div class="call-modal-content">
+  <div
+    style="width: 640px; height: 480px; border: 1px solid"
+    id="remote-video-wrapper"
+  >
+    <div
+      class="thumbnail peer-thumbnail"
+      *ngIf="!isPeerVideoOn"
+      [style.background-image]="'url(' + recipient!.mainPhoto + ')'"
+    ></div>
+    <video [ngStyle]="{ display: isPeerVideoOn ? 'block' : 'none' }"></video>
+
+    <div class="controls row">
+      <div class="col-4">
+        <ng-container *ngIf="isVideoAvailable; else VideoNotAvailable">
+          <img
+            *ngIf="isVideoOn; else VideoOff"
+            (click)="toggleVideo()"
+            class="control clickable"
+            width="30%"
+            src="../../../../assets/video-on-icon.png"
+          />
+
+          <ng-template #VideoOff>
+            <img
+              (click)="toggleVideo()"
+              class="control clickable"
+              width="30%"
+              src="../../../../assets/video-off-icon.png"
+            />
+          </ng-template>
+        </ng-container>
+
+        <ng-template #VideoNotAvailable>
+          <img
+            class="control"
+            width="30%"
+            src="../../../../assets/no-video-icon.png"
+          />
+        </ng-template>
+      </div>
+
+      <div class="col-4">
+        <img
+          (click)="disconnect()"
+          class="control clickable"
+          width="30%"
+          src="../../../../assets/call-end-icon.png"
+        />
+      </div>
+
+      <div class="col-4">
+        <ng-container *ngIf="isAudioAvailable; else AudioNotAvailable">
+          <img
+            (click)="toggleAudio()"
+            *ngIf="isAudioOn; else AudioOff"
+            class="control clickable"
+            width="30%"
+            src="../../../../assets/mic-on-icon.png"
+          />
+
+          <ng-template #AudioOff>
+            <img
+              (click)="toggleAudio()"
+              class="control clickable"
+              width="30%"
+              src="../../../../assets/mic-off-icon.png"
+            />
+          </ng-template>
+        </ng-container>
+
+        <ng-template #AudioNotAvailable>
+          <img
+            class="control"
+            width="30%"
+            src="../../../../assets/no-mic-icon.png"
+          />
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div
+    style="width: 320px; height: 240px; border: 1px solid"
+    id="self-video-wrapper"
+  >
+    <div
+      class="thumbnail self-thumbnail"
+      *ngIf="!isVideoAvailable || !isVideoOn"
+      [style.background-image]="'url(' + sender!.mainPhoto + ')'"
+    ></div>
+    <div id="self-video-stream" [ngStyle]="{ display: isVideoOn ? 'block' : 'none' }"></div>
+  </div>
+</div>

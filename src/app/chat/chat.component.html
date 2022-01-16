@@ -13,7 +13,9 @@
                 *ngFor="let chatRoom of chatFeed; let i = index"
                 class="list-group-item list-group-item-action text-white"
                 [ngClass]="
-                  selectedChatIndex !== null && selectedChatIndex === i
+                  chatRoom.lastChatMessage?.messageType === 'call'
+                    ? 'on-call'
+                    : selectedChatIndex !== null && selectedChatIndex === i
                     ? 'active'
                     : ''
                 "
@@ -66,14 +68,21 @@
                       "
                       class="mb-0 mt-2 text-small"
                     >
-                      {{
-                        chatRoom.lastChatMessage?.sender ===
-                        currentAccount?.username
-                          ? chatRoom.lastChatMessage?.seen === false
-                            ? "✱ "
-                            : "👁️‍🗨️"
-                          : ""
-                      }}
+                      <ng-container
+                        *ngIf="
+                          chatRoom.lastChatMessage?.sender ===
+                          currentAccount?.username
+                        "
+                        ><i
+                          *ngIf="chatRoom.lastChatMessage?.seen; else NotSeen"
+                          class="fa fa-eye"
+                          aria-hidden="true"
+                        ></i>
+                        <ng-template #NotSeen
+                          ><i class="fa fa-asterisk" aria-hidden="true"></i
+                        ></ng-template>
+                      </ng-container>
+
                       {{ chatRoom.lastChatMessage?.content }}
                     </p>
                   </div>
@@ -123,8 +132,12 @@
         *ngIf="selectedChatIndex === null && specificUser === null"
         class="chat-not-selected"
       >
-      <h4>Select a person to start chatting</h4>
-        <img width="50%" src="../../assets/chat-not-selected-icon.png" alt="Chat Not Slected">
+        <h4>Select a person to start chatting</h4>
+        <img
+          width="50%"
+          src="../../assets/chat-not-selected-icon.png"
+          alt="Chat Not Selected"
+        />
       </div>
     </div>
   </div>

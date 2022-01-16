@@ -24,10 +24,11 @@ export class UserCardComponent implements OnInit {
 
   constructor(private router: Router, private userService: UserService) {}
 
-  ngAfterViewInit() {
-    this.userService.hasLiked(this.user.username).subscribe((response) => {
-      if (response) this.hasLiked = true;
-    });
+  ngOnChanges() {
+    if (this.isLoggedIn)
+      this.userService.hasLiked(this.user.username).subscribe((response) => {
+        if (response) this.hasLiked = true;
+      });
   }
 
   chatToUser() {

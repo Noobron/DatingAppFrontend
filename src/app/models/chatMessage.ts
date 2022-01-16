@@ -1,6 +1,6 @@
 // Interface for a ChatMessage object
 export interface ChatMessage {
-  messageType: string;
+  messageType: 'text' | 'call';
   sender: string;
   recipient: string;
   createdAt: string | Date;

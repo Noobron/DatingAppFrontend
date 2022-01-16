@@ -9,7 +9,7 @@ export const environment = {
   API_URL: 'https://localhost:8000/api/',
 
   // Set websocket url url for localhost
-  WEBSOCKET_URL: 'ws://localhost:8001/ws/',
+  WEBSOCKET_URL: 'wss://localhost:8001/ws/',
 };
 
 /*

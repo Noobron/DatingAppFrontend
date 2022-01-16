@@ -18,6 +18,8 @@ import { UserService } from '../services/user/user-api.service';
 export class NavComponent implements OnInit {
   public user: User | null = null;
 
+  private isLoggedIn = false;
+
   constructor(
     public accountManagerService: AccountManagerService,
     private accountApiService: AccountApiService,
@@ -27,18 +29,24 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountManagerService.currentAccount$.subscribe((acc) => {
-      if (acc)
+      if (acc) {
         this.userService.getUser(acc.username).subscribe((res) => {
           this.user = res;
         });
-      else this.user = null;
+
+        this.isLoggedIn = true;
+      } else {
+        if (this.isLoggedIn)
+          this.router.navigate(['/']).then(() => {
+            window.location.reload();
+          });
+
+        this.user = null;
+      }
     });
   }
 
   logout() {
     this.accountApiService.logout();
-    this.router.navigate(['/']).then(() => {
-      window.location.reload();
-    });;
   }
 }

@@ -22,6 +22,9 @@ import { AccountStatusService } from 'src/app/services/account/account-status.se
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { CallComponent } from './call/call.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat-box',
@@ -65,7 +68,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
 
   constructor(
     private userChatService: UserChatService,
-    private accountStatusService: AccountStatusService
+    private accountStatusService: AccountStatusService,
+    private _modalService: NgbModal
   ) {
     this.model = new FormGroup({
       text: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -133,6 +137,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
 
     this.userChatService
       .getChatMessages(this.otherUser!.username, this.offset)
+      .pipe(take(1))
       .subscribe((result) => {
         let index = 0;
         result.forEach((chatMessage) => {
@@ -196,19 +201,55 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
             ) {
               let chatMessage: ChatMessage = msg.chat_message;
 
-              this.chatMessages.push(chatMessage);
+              if (chatMessage.messageType === 'text') {
+                this.chatMessages.push(chatMessage);
 
-              if (
-                chatMessage.recipient === this.otherUser!.username &&
-                chatMessage.seen === true
-              )
-                this.lastSeenMessageRelativeIndex = 0;
-              else if (this.lastSeenMessageRelativeIndex !== -1)
-                this.lastSeenMessageRelativeIndex++;
+                if (
+                  chatMessage.recipient === this.otherUser!.username &&
+                  chatMessage.seen === true
+                )
+                  this.lastSeenMessageRelativeIndex = 0;
+                else if (this.lastSeenMessageRelativeIndex !== -1)
+                  this.lastSeenMessageRelativeIndex++;
+              } else if (
+                chatMessage.messageType === 'call' &&
+                chatMessage.recipient == this.currentUser?.username &&
+                chatMessage.content !== 'call-arbitrate'
+              ) {
+                let d1 = new Date();
+                let d2 = new Date(chatMessage.createdAt);
+
+                if ((d1.getTime() - d2.getTime()) / 1000 <= 35)
+                  this.open(chatMessage.content);
+              }
             }
           });
         }
       });
+  }
+
+  makeCall() {
+    this.open();
+  }
+
+  open(remotePeerId: string | null = null) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+    };
+
+    const modalRef = this._modalService.open(CallComponent, ngbModalOptions);
+
+    if (remotePeerId) modalRef.componentInstance.remotePeerId = remotePeerId;
+
+    if (this.chatWebSocket$)
+      modalRef.componentInstance.chatWebSocket$ = this.chatWebSocket$;
+
+    modalRef.componentInstance.sender = this.currentUser;
+
+    modalRef.componentInstance.recipient = this.otherUser;
+
+    modalRef.result.then();
   }
 
   ngOnChanges() {

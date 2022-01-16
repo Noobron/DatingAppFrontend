@@ -12,7 +12,7 @@ import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { UserParams } from 'src/app/models/userParams';
 import { User } from 'src/app/models/user';
 import { AccountApiService } from 'src/app/services/account/account-api.service';
-import { map, switchMap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-list',
@@ -70,11 +70,11 @@ export class UserListComponent implements OnInit {
                 ? 'male'
                 : '';
             this.filterOptions.gender = this.defaultGender;
-            this.getNextUserBatch(true);
+            this.getNextUserBatch(true, true);
           });
         } else {
           this.isLoggedIn = false;
-          this.getNextUserBatch();
+          this.getNextUserBatch(false, true);
         }
       });
     });
@@ -116,7 +116,7 @@ export class UserListComponent implements OnInit {
       this.offest = 0;
       this.currentPosition = 0;
       this.userList = [];
-      this.slickModal.slides = [];
+      if (this.slickModal) this.slickModal.slides = [];
     }
 
     this.userService
@@ -125,6 +125,7 @@ export class UserListComponent implements OnInit {
         this.batchSize,
         applyfilters ? this.filterOptions : null
       )
+      .pipe(take(1))
       .subscribe((response) => {
         if (response !== []) this.userList.push(...response);
         this.offest += this.batchSize;

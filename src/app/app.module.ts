@@ -27,6 +27,7 @@ import { ImageUploadComponent } from './users/user-edit/image-upload/image-uploa
 import { UpdateProfileModalComponent } from './users/user-edit/update-profile-modal/update-profile-modal.component';
 import { ChatBoxComponent } from './chat/chat-box/chat-box.component';
 import { MessageComponent } from './chat/chat-box/message/message.component';
+import { CallComponent } from './chat/chat-box/call/call.component';
 
 // Import Interceptors
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -58,6 +59,7 @@ import { AccountStatusService } from './services/account/account-status.service'
     UpdateProfileModalComponent,
     ChatBoxComponent,
     MessageComponent,
+    CallComponent,
   ],
   imports: [
     BrowserModule,

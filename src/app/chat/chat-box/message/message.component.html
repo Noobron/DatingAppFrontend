@@ -11,7 +11,9 @@
         [innerHTML]="processTextMessage(chatMessage.content)"
       ></span>
     </div>
-    <div *ngIf="isLastSeenMessage">👁️‍🗨️</div>
+    <div *ngIf="isLastSeenMessage">
+      <i class="fa fa-eye" aria-hidden="true"></i>
+    </div>
     <p class="small text-muted">
       {{ chatMessage.createdAt | date: "shortTime" }} |
       {{ chatMessage.createdAt | date: "mediumDate" }}
