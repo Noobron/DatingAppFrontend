@@ -28,6 +28,7 @@ import { UpdateProfileModalComponent } from './users/user-edit/update-profile-mo
 import { ChatBoxComponent } from './chat/chat-box/chat-box.component';
 import { MessageComponent } from './chat/chat-box/message/message.component';
 import { CallComponent } from './chat/chat-box/call/call.component';
+import { FooterComponent } from './footer/footer.component';
 
 // Import Interceptors
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -60,6 +61,7 @@ import { AccountStatusService } from './services/account/account-status.service'
     ChatBoxComponent,
     MessageComponent,
     CallComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

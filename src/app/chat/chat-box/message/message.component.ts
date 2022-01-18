@@ -53,7 +53,7 @@ export class MessageComponent implements OnInit {
 
   processTextMessage(text: string) {
     let result: string[] = [];
-    let n = 20;
+    let n = 36;
 
     let link =
       /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;

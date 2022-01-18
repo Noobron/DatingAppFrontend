@@ -43,8 +43,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     new Map();
 
   preprocessChatFeedMessage(type: string, content: string) {
+    let maxLen = 30;
+
     if (type === 'text' || type === 'call')
-      return content.substring(0, 15) + (content.length > 15 ? '...' : '');
+      return (
+        content.substring(0, maxLen) + (content.length > maxLen ? '...' : '')
+      );
 
     return content;
   }
@@ -68,7 +72,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.userChatService.getChatFeed().subscribe((result) => {
         if (this.chatFeed.length === 0) {
           result.sort((a: ChatRoom, b: ChatRoom) => {
-            return a.lastChatMessage!.createdAt < b.lastChatMessage!.createdAt
+            return a.lastChatMessage!.createdAt > b.lastChatMessage!.createdAt
               ? -1
               : 1;
           });
@@ -224,6 +228,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   selectChat(index: number) {
     this.selectedChatIndex = index;
+
+    let message: ChatMessage =
+      this.chatFeed[this.selectedChatIndex].lastChatMessage!;
+    if (
+      message.seen == false &&
+      message.sender !== this.currentAccount?.username
+    )
+      this.chatFeed[this.selectedChatIndex].lastChatMessage!.seen = true;
+
     this.specificUser = null;
   }
 
