@@ -40,6 +40,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   isLoggedIn = false;
 
+  hasBeenLikedBy = false;
+
   galleryOptions: NgxGalleryOptions[] = [
     {
       width: '500px',
@@ -64,8 +66,13 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.accountManagerService.currentAccount$.subscribe((acc) => {
       if (acc) {
         this.isLoggedIn = true;
+
         this.userService.hasLiked(username).subscribe((response) => {
           if (response) this.hasLiked = true;
+        });
+
+        this.userService.hasLiked(username, true).subscribe((response) => {
+          if (response) this.hasBeenLikedBy = true;
         });
       } else this.isLoggedIn = false;
     });

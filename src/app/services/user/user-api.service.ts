@@ -1,5 +1,5 @@
 // Import Angular packages
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -103,7 +103,13 @@ export class UserService {
   }
 
   // Check whether current user has liked a user
-  hasLiked(likedOn: string) {
-    return this.http.get(this.baseurl + API_Paths.hasLiked + likedOn);
+  hasLiked(likedOn: string, isInverse: boolean = false) {
+    let params = new HttpParams();
+
+    if (isInverse) params = params.append('inverse', '');
+
+    return this.http.get(this.baseurl + API_Paths.hasLiked + likedOn, {
+      params: params,
+    });
   }
 }
